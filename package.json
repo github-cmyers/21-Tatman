@@ -1,0 +1,7 @@
+{
+  "name": "21-tatman",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -l tcp://0.0.0.0:$PORT"
+  }
+}
