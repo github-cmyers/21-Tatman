@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>21 Tatman Street — Property Valuation &amp; Offer Justification</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="screen">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e8eaf6; min-height: 100vh; padding: 24px; max-width: 960px; margin: 0 auto; }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #1e2740; }
+  .header h1 { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .header p { color: #8892b0; font-size: 13px; margin-top: 6px; }
+  .offer-badge { display: inline-block; background: #3730a322; border: 1px solid #6366f155; color: #a5b4fc; font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: 20px; margin-top: 12px; letter-spacing: 0.5px; }
+
+  /* OFFER CARD */
+  .offer-card {
+    background: linear-gradient(135deg, #1a1f2e, #1e2438);
+    border: 1px solid #2a3050;
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .offer-icon { font-size: 52px; flex-shrink: 0; }
+  .offer-text h2 { font-size: 14px; color: #8892b0; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .offer-amount { font-size: 48px; font-weight: 800; color: #a5b4fc; letter-spacing: -1px; line-height: 1; }
+  .offer-sub { font-size: 13px; color: #8892b0; margin-top: 8px; line-height: 1.6; }
+  .offer-sub span { color: #fbbf24; font-weight: 600; }
+
+  /* COMPARE BANNER */
+  .compare-banner {
+    background: linear-gradient(135deg, #1a1a24, #1e1e2c);
+    border: 1px solid #2a3050;
+    border-radius: 14px;
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .compare-banner .cb-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; flex-shrink: 0; }
+  .compare-item { flex: 1; min-width: 120px; }
+  .compare-item .ci-title { font-size: 11px; color: #64748b; margin-bottom: 2px; }
+  .compare-item .ci-val { font-size: 17px; font-weight: 700; color: #e2e8f0; }
+  .compare-item .ci-diff { font-size: 11px; margin-top: 2px; }
+  .ci-red { color: #f87171; }
+  .ci-green { color: #4ade80; }
+  .ci-muted { color: #64748b; }
+  .divider-v { width: 1px; background: #1e2740; align-self: stretch; }
+
+  /* SECTION TITLES */
+  .section-title { font-size: 13px; font-weight: 700; color: #8892b0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .section-title .st-icon { font-size: 16px; }
+
+  /* CARDS */
+  .card { background: #161b28; border: 1px solid #1e2740; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+  .card.danger { border-color: #7f1d1d; background: linear-gradient(135deg, #1a1418, #1e1a1c); }
+  .card.warning { border-color: #78350f; background: linear-gradient(135deg, #1a1a18, #1e1e1c); }
+
+  /* STATS GRID */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: #161b28; border: 1px solid #1e2740; border-radius: 14px; padding: 18px 20px; }
+  .stat-card .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-bottom: 6px; }
+  .stat-card .value { font-size: 22px; font-weight: 700; color: #e2e8f0; }
+  .stat-card .sub { font-size: 11px; color: #475569; margin-top: 3px; }
+  .stat-card.income .value { color: #4ade80; }
+  .stat-card.expense .value { color: #f87171; }
+  .stat-card.neutral .value { color: #818cf8; }
+
+  /* ISSUE ROWS */
+  .issue-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid #1e2740; }
+  .issue-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .issue-row:first-of-type { padding-top: 0; }
+  .issue-severity { flex-shrink: 0; width: 72px; text-align: center; padding: 4px 0; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sev-safety { background: #dc262622; border: 1px solid #dc262644; color: #f87171; }
+  .sev-poor { background: #f9731622; border: 1px solid #f9731644; color: #fb923c; }
+  .sev-marginal { background: #fbbf2422; border: 1px solid #fbbf2444; color: #fbbf24; }
+  .issue-detail { flex: 1; }
+  .issue-detail .issue-name { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
+  .issue-detail .issue-desc { font-size: 12px; color: #8892b0; line-height: 1.5; }
+  .issue-cost { flex-shrink: 0; text-align: right; min-width: 110px; }
+  .issue-cost .cost-range { font-size: 14px; font-weight: 700; color: #f87171; }
+  .issue-cost .cost-note { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  /* TENANT STATUS */
+  .tenant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 8px; }
+  .tenant-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 12px; padding: 18px; }
+  .tenant-card.vacant { border-color: #dc262655; }
+  .tenant-card.problem { border-color: #f9731655; }
+  .tenant-card.below-market { border-color: #fbbf2455; }
+  .tenant-card .tc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .tenant-card .tc-unit { font-size: 14px; font-weight: 700; color: #e2e8f0; }
+  .tenant-card .tc-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-red { background: #dc262622; border: 1px solid #dc262644; color: #f87171; }
+  .badge-orange { background: #f9731622; border: 1px solid #f9731644; color: #fb923c; }
+  .badge-yellow { background: #fbbf2422; border: 1px solid #fbbf2444; color: #fbbf24; }
+  .tenant-card .tc-rent { font-size: 20px; font-weight: 800; margin: 6px 0; }
+  .tc-rent.rent-zero { color: #f87171; }
+  .tc-rent.rent-low { color: #fbbf24; }
+  .tc-rent.rent-normal { color: #4ade80; }
+  .tenant-card .tc-desc { font-size: 12px; color: #8892b0; line-height: 1.5; }
+
+  /* BAR CHART */
+  .bar-item { margin-bottom: 14px; }
+  .bar-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .bar-name { font-size: 13px; color: #cbd5e1; font-weight: 500; }
+  .bar-amount { font-size: 13px; font-weight: 700; }
+  .bar-track { background: #1e2740; border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  hr.divider { border: none; border-top: 1px solid #1e2740; margin: 20px 0; }
+
+  /* TOTAL ROW */
+  .total-row { display: flex; align-items: center; justify-content: space-between; background: #0f1117; border: 1px solid #1e2740; border-radius: 10px; padding: 14px 18px; margin-top: 12px; }
+  .total-row .tr-label { font-size: 14px; font-weight: 700; color: #e2e8f0; }
+  .total-row .tr-value { font-size: 18px; font-weight: 800; }
+
+  /* CASHFLOW SUMMARY */
+  .cf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .cf-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 10px; padding: 16px; text-align: center; }
+  .cf-card .cf-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; }
+  .cf-card .cf-val { font-size: 24px; font-weight: 800; }
+  .cf-card .cf-sub { font-size: 11px; color: #475569; margin-top: 4px; }
+  .cf-pos { color: #4ade80; }
+  .cf-neg { color: #f87171; }
+  .cf-neutral { color: #a5b4fc; }
+  .cf-warn { color: #fbbf24; }
+
+  /* BOTTOM LINE */
+  .bottom-line {
+    background: linear-gradient(135deg, #1a2418, #1e2a1c);
+    border: 1px solid #2a4030;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .bottom-line h3 { font-size: 16px; font-weight: 700; color: #4ade80; margin-bottom: 12px; }
+  .bottom-line p { font-size: 13px; color: #94a3b8; line-height: 1.8; }
+  .bottom-line strong { color: #e2e8f0; }
+  .bottom-line .bl-highlight { color: #fbbf24; font-weight: 600; }
+
+  /* UNINSPECTED */
+  .uninspected-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+  .uninspected-card { background: #0f1117; border: 1px dashed #374151; border-radius: 10px; padding: 14px 18px; }
+  .uninspected-card .ui-title { font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 4px; }
+  .uninspected-card .ui-desc { font-size: 11px; color: #64748b; line-height: 1.5; }
+
+  .footnote { font-size: 11px; color: #374151; text-align: center; margin-top: 24px; line-height: 1.6; }
+
+  @media (max-width: 640px) {
+    .offer-card { flex-direction: column; text-align: center; }
+    .offer-amount { font-size: 36px; }
+    .compare-banner { flex-direction: column; }
+    .issue-row { flex-direction: column; gap: 8px; }
+    .issue-cost { text-align: left; }
+  }
+
+  /* ── PRINT STYLES ─────────────────────────────────────────────────────── */
+  @media print {
+    /* Reset to white background, black text */
+    *, *::before, *::after { color-adjust: exact; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff !important; color: #1a1a1a !important; padding: 0 !important; font-size: 11px; }
+
+    /* Cards & sections → white bg, light grey borders */
+    .card, .card.danger, .card.warning,
+    .breakdown-section, .scenario-section,
+    .stat-card, .offer-card, .compare-banner,
+    .tenant-card, .tenant-card.vacant, .tenant-card.problem, .tenant-card.below-market,
+    .cf-card, .scen-stat, .uninspected-card,
+    .total-row, .bottom-line, .budget-toggle-bar, .price-control-bar {
+      background: #fff !important;
+      border-color: #ccc !important;
+      box-shadow: none !important;
+    }
+
+    /* All text → high-contrast dark */
+    .header h1, .offer-amount, .stat-card .value,
+    .bar-name, .issue-detail .issue-name,
+    .tc-unit, .section-title, .tr-label,
+    .cf-card .cf-label, .cf-card .cf-sub,
+    .bottom-line h3 { color: #1a1a1a !important; }
+
+    .header p, .offer-sub, .stat-card .sub, .stat-card .delta,
+    .stat-card .label, .issue-detail .issue-desc,
+    .tc-desc, .ci-title, .ci-diff, .cb-label,
+    .uninspected-card .ui-title, .uninspected-card .ui-desc,
+    .footnote, .bottom-line p,
+    .compare-item .ci-diff { color: #444 !important; }
+
+    /* Keep semantic colors but darken for print */
+    .cf-pos, .ci-green, .tc-rent.rent-normal,
+    .bottom-line h3 { color: #166534 !important; }
+    .cf-neg, .ci-red, .tc-rent.rent-zero,
+    .issue-cost .cost-range, .stat-card.expense .value { color: #991b1b !important; }
+    .cf-warn, .tc-rent.rent-low, .bl-highlight,
+    .offer-badge { color: #92400e !important; }
+    .cf-neutral, .stat-card.neutral .value,
+    .offer-amount { color: #1e3a5f !important; }
+
+    /* Severity badges */
+    .sev-safety { background: #fee2e2 !important; border-color: #fca5a5 !important; color: #991b1b !important; }
+    .sev-poor { background: #ffedd5 !important; border-color: #fdba74 !important; color: #9a3412 !important; }
+    .sev-marginal { background: #fef9c3 !important; border-color: #fde047 !important; color: #854d0e !important; }
+
+    /* Tenant badges */
+    .badge-red { background: #fee2e2 !important; border-color: #fca5a5 !important; color: #991b1b !important; }
+    .badge-orange { background: #ffedd5 !important; border-color: #fdba74 !important; color: #9a3412 !important; }
+    .badge-yellow { background: #fef9c3 !important; border-color: #fde047 !important; color: #854d0e !important; }
+
+    /* Offer badge */
+    .offer-badge { background: #e0e7ff !important; border-color: #a5b4fc !important; color: #1e3a5f !important; }
+
+    /* Bar chart tracks & fills → visible on white */
+    .bar-track { background: #e5e7eb !important; }
+    .bar-fill { opacity: 0.85; }
+
+    /* Bar amounts → dark for readability */
+    .bar-amount, .bar-amount span { color: #1a1a1a !important; }
+
+    /* Table */
+    table { border: 1px solid #ccc; }
+    th { background: #f3f4f6 !important; color: #1a1a1a !important; border-bottom: 2px solid #999 !important; }
+    td { color: #1a1a1a !important; border-bottom: 1px solid #e5e7eb !important; }
+    tr[style*="background:#4ade8008"] { background: #f0fdf4 !important; }
+    /* Table colored cells: keep semantic but print-safe */
+    td[style*="color:#f87171"] { color: #991b1b !important; }
+    td[style*="color:#fb923c"] { color: #9a3412 !important; }
+    td[style*="color:#fbbf24"] { color: #854d0e !important; }
+    td[style*="color:#4ade80"] { color: #166534 !important; }
+    td[style*="color:#e2e8f0"] { color: #1a1a1a !important; }
+
+    /* Total rows */
+    .total-row { background: #f3f4f6 !important; border-color: #ccc !important; }
+    .total-row .tr-value { color: #1a1a1a !important; }
+    .tr-value[style*="color:#f87171"] { color: #991b1b !important; }
+    .tr-value[style*="color:#fbbf24"] { color: #854d0e !important; }
+    .tr-value[style*="color:#4ade80"] { color: #166534 !important; }
+
+    /* Compare banner items */
+    .compare-item .ci-val { color: #1a1a1a !important; }
+    .compare-item .ci-val[style*="color:#f87171"] { color: #991b1b !important; }
+    .compare-item .ci-val[style*="color:#fbbf24"] { color: #854d0e !important; }
+    .compare-item .ci-val[style*="color:#4ade80"] { color: #166534 !important; }
+    .compare-item .ci-val[style*="color:#a5b4fc"] { color: #1e3a5f !important; }
+    .divider-v { background: #ccc !important; }
+
+    /* Bottom line */
+    .bottom-line { background: #f0fdf4 !important; border-color: #86efac !important; }
+    .bottom-line strong { color: #1a1a1a !important; }
+    .bottom-line strong[style*="color:#a5b4fc"] { color: #1e3a5f !important; }
+
+    /* Footnote */
+    .footnote { color: #666 !important; }
+
+    /* Cards & sections can break across pages — only keep small elements together */
+    .issue-row, .tenant-card, .stat-card, .total-row,
+    .uninspected-card, .cf-card, .bar-item { break-inside: avoid; }
+
+    /* Offer card and bottom-line are short enough to keep intact */
+    .offer-card, .compare-banner, .bottom-line { break-inside: avoid; }
+
+    /* Inline style overrides for stat-card colored values */
+    .stat-card .value[style*="color:#f87171"] { color: #991b1b !important; }
+
+    /* Hide interactive elements not relevant to print */
+    .price-control-bar, .budget-toggle-bar, .toggle-row, .toggle-btn { display: none !important; }
+
+    /* Ensure grids don't overflow */
+    .stats-grid, .tenant-grid, .cf-grid, .uninspected-grid {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    /* Link styling */
+    a { color: #1e3a5f !important; text-decoration: underline; }
+
+    /* ── Compact spacing for print ─────────────────────────────────────── */
+    body { padding: 12px !important; }
+    .header { margin-bottom: 12px !important; padding-bottom: 10px !important; }
+    .compare-banner { margin-bottom: 10px !important; padding: 10px 14px !important; gap: 10px !important; }
+    .card { margin-bottom: 10px !important; padding: 14px !important; border-radius: 8px !important; }
+    .offer-card { margin-bottom: 10px !important; padding: 14px !important; gap: 14px !important; }
+    .bottom-line { margin-bottom: 10px !important; padding: 14px !important; }
+    .section-title { margin-bottom: 8px !important; }
+    .stats-grid { gap: 8px !important; margin-bottom: 10px !important; }
+    .stat-card { padding: 10px 12px !important; border-radius: 6px !important; }
+    .tenant-grid { gap: 8px !important; margin-bottom: 6px !important; }
+    .tenant-card { padding: 10px 12px !important; border-radius: 6px !important; }
+    .cf-grid { gap: 8px !important; }
+    .cf-card { padding: 10px !important; border-radius: 6px !important; }
+    .issue-row { padding: 8px 0 !important; gap: 10px !important; }
+    .bar-item { margin-bottom: 8px !important; }
+    .total-row { padding: 8px 12px !important; margin-top: 8px !important; border-radius: 6px !important; }
+    .uninspected-grid { gap: 8px !important; }
+    .uninspected-card { padding: 10px 12px !important; border-radius: 6px !important; }
+    hr.divider { margin: 10px 0 !important; }
+    .footnote { margin-top: 10px !important; }
+    .offer-amount { font-size: 36px !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HEADER                                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="header">
+  <h1>21 Tatman Street, Worcester MA</h1>
+  <p>3-Family Investment Property &mdash; Valuation Analysis &amp; Offer Justification</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- VALUATION SNAPSHOT                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="compare-banner">
+  <div class="cb-label">Valuation Factors</div>
+  <div class="compare-item">
+    <div class="ci-title">Projected Gross Rent</div>
+    <div class="ci-val" style="color:#4ade80">$5,950/mo</div>
+    <div class="ci-diff ci-muted">$2,100 + $2,050 + $1,800</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">Required Repairs</div>
+    <div class="ci-val" style="color:#f87171">$9,400 &ndash; $21,050</div>
+    <div class="ci-diff ci-red">Per professional inspection</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">Stabilized Net Cash Flow</div>
+    <div class="ci-val" style="color:#f87171">-$118/mo</div>
+    <div class="ci-diff ci-red">At $700k &mdash; cash flow negative</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">First-Year Loss</div>
+    <div class="ci-val" style="color:#f87171">-$8,616</div>
+    <div class="ci-diff ci-red">Before repair costs</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: INSPECTION FINDINGS                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card danger">
+  <div class="section-title"><span class="st-icon">&#128270;</span> Professional Inspection Findings &mdash; Required Repairs</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.6">
+    The following issues were documented during a professional home inspection by L &amp; M Home Inspection Service, LLC. Items are categorized by severity per ASHI standards. All repairs should be performed by licensed contractors.
+  </p>
+
+  <!-- SAFETY ISSUES -->
+  <div style="font-size:11px;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;margin-top:4px">&#9888;&#65039; Safety Hazards &mdash; Immediate Action Required</div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-safety">Safety</div>
+    <div class="issue-detail">
+      <div class="issue-name">Service Walkway &mdash; Failing Prior Repair</div>
+      <div class="issue-desc">A previous concrete repair is breaking up. Additional cracking and a hole beneath a slab near the side porch. Trip hazard and water intrusion risk.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$500 &ndash; $1,500</div>
+      <div class="cost-note">Concrete contractor</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-safety">Safety</div>
+    <div class="issue-detail">
+      <div class="issue-name">Front Porch &mdash; Lifting Deck Boards</div>
+      <div class="issue-desc">Several deck boards on the front porch are lifting. Presents a trip hazard and indicates potential structural or moisture issues underneath.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$500 &ndash; $1,000</div>
+      <div class="cost-note">Carpenter</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-safety">Safety</div>
+    <div class="issue-detail">
+      <div class="issue-name">Side Porch Soffit / Trim Gap</div>
+      <div class="issue-desc">Gap in soffit/metal trim on top of side porch allowing birds and pests to enter. Can cause nesting damage, droppings, and insulation degradation.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$300 &ndash; $600</div>
+      <div class="cost-note">General contractor</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-safety">Safety</div>
+    <div class="issue-detail">
+      <div class="issue-name">Missing Anti-Siphon Device on Hose Bib</div>
+      <div class="issue-desc">At least one exterior hose bib lacks an anti-siphon valve, creating a cross-contamination risk with the potable water supply.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$50 &ndash; $150</div>
+      <div class="cost-note">Licensed plumber</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- POOR / MAJOR ITEMS -->
+  <div style="font-size:11px;font-weight:700;color:#fb923c;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">&#128680; Poor Condition &mdash; Repair or Replace Soon</div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-poor">Poor</div>
+    <div class="issue-detail">
+      <div class="issue-name">Chimney &mdash; Damaged Bricks</div>
+      <div class="issue-desc">Chimney brickwork appears damaged. Deteriorating chimney masonry can lead to water intrusion, structural issues, and potential hazards from falling debris. No rain cap or spark arrestor present.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$1,000 &ndash; $3,000</div>
+      <div class="cost-note">Mason / chimney contractor</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-poor">Poor</div>
+    <div class="issue-detail">
+      <div class="issue-name">Foundation Tuck-Pointing Required</div>
+      <div class="issue-desc">Exterior brick foundation mortar joints are deteriorated and require tuck-pointing. Neglecting this allows water infiltration, accelerates foundation deterioration, and can lead to structural compromise over time.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$2,000 &ndash; $5,000</div>
+      <div class="cost-note">Masonry contractor</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-poor">Poor</div>
+    <div class="issue-detail">
+      <div class="issue-name">Basement Water Infiltration</div>
+      <div class="issue-desc">Active water present on the basement floor at time of inspection. Field stone foundation seeps with heavy rain or snow melt. While perimeter drainage and a sump pump are functional, this is an ongoing condition that limits basement usability and requires continuous pump maintenance.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">Ongoing</div>
+      <div class="cost-note">Sump pump maintenance</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-poor">Poor</div>
+    <div class="issue-detail">
+      <div class="issue-name">Water Heater #1 &mdash; End of Life</div>
+      <div class="issue-desc">One of the four water heaters is 10&ndash;15+ years old and at or past its expected service life. Inspector recommends budgeting for replacement. Failure could cause water damage to the basement and loss of hot water to a unit.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$1,500 &ndash; $2,500</div>
+      <div class="cost-note">40-gal gas replacement</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-poor">Poor</div>
+    <div class="issue-detail">
+      <div class="issue-name">Rusty Electrical Panel &mdash; Unit 1</div>
+      <div class="issue-desc">The main electrical panel for Unit 1 has significant rust on the panel and breakers. Rust on breakers can cause failure to trip during overload &mdash; a serious safety concern. May require full panel replacement.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$1,500 &ndash; $3,000</div>
+      <div class="cost-note">Panel replacement</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- MARGINAL ITEMS -->
+  <div style="font-size:11px;font-weight:700;color:#fbbf24;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">&#9888;&#65039; Marginal Condition &mdash; Repair Within 1&ndash;5 Years</div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-marginal">Marginal</div>
+    <div class="issue-detail">
+      <div class="issue-name">Peeling Paint &mdash; Porches &amp; Exterior Doors</div>
+      <div class="issue-desc">Paint is peeling on the front porch, side porch, and front doors.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$500 &ndash; $1,000</div>
+      <div class="cost-note">Painter (lead-safe if applicable)</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-marginal">Marginal</div>
+    <div class="issue-detail">
+      <div class="issue-name">Missing Gutter Downspout</div>
+      <div class="issue-desc">Downspout is missing on the right front of the house. Water pours directly against the foundation, accelerating the foundation and basement water issues noted above.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$100 &ndash; $300</div>
+      <div class="cost-note">Gutter installer</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-marginal">Marginal</div>
+    <div class="issue-detail">
+      <div class="issue-name">Kitchen Cabinet Floor Missing &mdash; Unit 2</div>
+      <div class="issue-desc">The sink cabinet in Kitchen 2 has no floor panel. Allows water damage to subfloor and can harbor pests.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$200 &ndash; $500</div>
+      <div class="cost-note">Carpenter / handyman</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-marginal">Marginal</div>
+    <div class="issue-detail">
+      <div class="issue-name">Toilet Not Refilling &mdash; Unit 2</div>
+      <div class="issue-desc">Toilet in Unit 2 would not refill after flushing. Could indicate a faulty fill valve, supply line issue, or more significant plumbing concern.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$150 &ndash; $300</div>
+      <div class="cost-note">Licensed plumber</div>
+    </div>
+  </div>
+
+  <div class="issue-row">
+    <div class="issue-severity sev-marginal">Marginal</div>
+    <div class="issue-detail">
+      <div class="issue-name">Tub Spout Gap &mdash; Unit 1</div>
+      <div class="issue-desc">Gap between tub spout nozzle and wall in Bathroom 1. Can allow water behind the wall, leading to hidden mold and rot.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range">$100 &ndash; $200</div>
+      <div class="cost-note">Plumber / handyman</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TOTALS -->
+  <div class="total-row">
+    <span class="tr-label">Total Estimated Buyer Repair Costs</span>
+    <span class="tr-value" style="color:#f87171">$9,400 &ndash; $21,050</span>
+  </div>
+  <p style="font-size:11px;color:#64748b;margin-top:8px;text-align:center">
+    Estimates based on Worcester, MA contractor rates as of March 2026. Actual costs may vary. All repairs recommended by licensed inspector.
+  </p>
+
+  <hr class="divider">
+
+  <!-- HOMEOWNER REMEDIATION -->
+  <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">&#128736;&#65039; Being Remediated by Current Homeowner</div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:14px;line-height:1.5">
+    The following safety items were identified during the inspection. The current homeowner has agreed to address these repairs prior to closing. Costs are excluded from the buyer's repair total above but are documented here for completeness.
+  </p>
+
+  <div class="issue-row" style="opacity:0.6">
+    <div class="issue-severity" style="background:#94a3b822;border:1px solid #94a3b844;color:#94a3b8;width:72px;text-align:center;padding:4px 0;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;flex-shrink:0">Owner</div>
+    <div class="issue-detail">
+      <div class="issue-name">Open Junction Box (Duct Tape Cover)</div>
+      <div class="issue-desc">Basement junction box covered only with duct tape instead of a proper electrical cover. Fire and electrocution hazard.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range" style="color:#94a3b8">N/A</div>
+      <div class="cost-note">Homeowner repairing</div>
+    </div>
+  </div>
+
+  <div class="issue-row" style="opacity:0.6">
+    <div class="issue-severity" style="background:#94a3b822;border:1px solid #94a3b844;color:#94a3b8;width:72px;text-align:center;padding:4px 0;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;flex-shrink:0">Owner</div>
+    <div class="issue-detail">
+      <div class="issue-name">Missing Electrical Outlet Cover</div>
+      <div class="issue-desc">Exposed electrical outlet in basement with no cover plate. Risk of shock or short circuit.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range" style="color:#94a3b8">N/A</div>
+      <div class="cost-note">Homeowner repairing</div>
+    </div>
+  </div>
+
+  <div class="issue-row" style="opacity:0.6">
+    <div class="issue-severity" style="background:#94a3b822;border:1px solid #94a3b844;color:#94a3b8;width:72px;text-align:center;padding:4px 0;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;flex-shrink:0">Owner</div>
+    <div class="issue-detail">
+      <div class="issue-name">Unsecured Electrical Wires in Basement</div>
+      <div class="issue-desc">Multiple electrical wires not properly secured to the structure. Tripping hazard and risk of wire damage leading to fire.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range" style="color:#94a3b8">N/A</div>
+      <div class="cost-note">Homeowner repairing</div>
+    </div>
+  </div>
+
+  <div class="issue-row" style="opacity:0.6">
+    <div class="issue-severity" style="background:#94a3b822;border:1px solid #94a3b844;color:#94a3b8;width:72px;text-align:center;padding:4px 0;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;flex-shrink:0">Owner</div>
+    <div class="issue-detail">
+      <div class="issue-name">Water Heater Wiring Not in Armored Conduit (x2)</div>
+      <div class="issue-desc">Electrical wiring for two water heaters lacks required armored jacket/conduit. Code violation and fire risk.</div>
+    </div>
+    <div class="issue-cost">
+      <div class="cost-range" style="color:#94a3b8">N/A</div>
+      <div class="cost-note">Homeowner repairing</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: UNINSPECTED AREAS                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#10067;</span> Areas Not Inspected &mdash; Unknown Risk</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    The following areas could not be evaluated during the professional inspection. These represent <strong style="color:#fbbf24">additional unknown risks</strong> that a buyer must accept without information.
+  </p>
+  <div class="uninspected-grid">
+    <div class="uninspected-card">
+      <div class="ui-title">Attic / Insulation / Framing</div>
+      <div class="ui-desc">The attic access was too high to safely enter or view. No evaluation of insulation condition, roof decking, ventilation, or structural framing was possible. The seller offered to provide photos, but photos are not a substitute for a professional, in-person inspection.</div>
+    </div>
+    <div class="uninspected-card">
+      <div class="ui-title">Bedroom 2 &mdash; Unit 1</div>
+      <div class="ui-desc">Could not be inspected because the tenant was sleeping at the time of inspection. Walls, ceiling, floor, electrical, heating, windows, and egress were all unverified.</div>
+    </div>
+    <div class="uninspected-card">
+      <div class="ui-title">Air Conditioning System</div>
+      <div class="ui-desc">The Mitsubishi mini-split AC system could not be operated due to exterior temperature being below 60&deg;F. Cooling performance, refrigerant levels, and compressor function are all unverified. Inspector recommends HVAC evaluation before use.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: CASH FLOW AT $700,000                                      -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#128176;</span> Monthly Cash Flow Analysis at $700,000</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.6">
+    At a purchase price of $700,000, the property produces <strong style="color:#f87171">negative cash flow even when fully stabilized</strong>. This analysis assumes all 3 units are occupied at target rents ($2,100 + $2,050 + $1,800 = $5,950/mo) &mdash; a best-case scenario that will take months to achieve given the current tenant situation.
+  </p>
+
+  <!-- Expense Breakdown -->
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">Mortgage (P&amp;I) &mdash; $560k loan @ 6.32%, 30yr</span>
+      <span class="bar-amount" style="color:#818cf8">$3,480</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:100%;background:linear-gradient(90deg,#6366f1,#818cf8)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">Property Tax ($13.28/$1,000 &mdash; FY2026)</span>
+      <span class="bar-amount" style="color:#f87171">$775</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:22.3%;background:linear-gradient(90deg,#dc2626,#f87171)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">Landlord Insurance</span>
+      <span class="bar-amount" style="color:#fb923c">$250</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:7.2%;background:linear-gradient(90deg,#c2410c,#fb923c)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">Maintenance &amp; Repairs (1% of value/yr)</span>
+      <span class="bar-amount" style="color:#fbbf24">$583</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:16.8%;background:linear-gradient(90deg,#d97706,#fbbf24)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">Water / Sewer (landlord-paid)</span>
+      <span class="bar-amount" style="color:#38bdf8">$200</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:5.8%;background:linear-gradient(90deg,#0369a1,#38bdf8)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">Vacancy Reserve (7.5% of rent)</span>
+      <span class="bar-amount" style="color:#a78bfa">$446</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:12.8%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">CapEx Reserve (0.4% of value/yr)</span>
+      <span class="bar-amount" style="color:#94a3b8">$233</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:6.7%;background:linear-gradient(90deg,#475569,#94a3b8)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">CPA Surcharge + Misc</span>
+      <span class="bar-amount" style="color:#94a3b8">$101</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:2.9%;background:#64748b"></div></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="total-row">
+    <span class="tr-label">Total Monthly Expenses</span>
+    <span class="tr-value" style="color:#f87171">$6,068</span>
+  </div>
+
+  <div style="height:18px"></div>
+
+  <!-- Cash Flow Cards -->
+  <div class="cf-grid">
+    <div class="cf-card">
+      <div class="cf-label">Gross Rent (Stabilized)</div>
+      <div class="cf-val cf-pos">$5,950</div>
+      <div class="cf-sub">$2,100 + $2,050 + $1,800</div>
+    </div>
+    <div class="cf-card">
+      <div class="cf-label">Monthly Net Cash Flow</div>
+      <div class="cf-val cf-neg">-$118</div>
+      <div class="cf-sub">Negative even when fully stabilized</div>
+    </div>
+    <div class="cf-card">
+      <div class="cf-label">Annual Net</div>
+      <div class="cf-val cf-neg">-$1,416</div>
+      <div class="cf-sub">-$118 &times; 12 months</div>
+    </div>
+    <div class="cf-card">
+      <div class="cf-label">Cash-on-Cash Return</div>
+      <div class="cf-val cf-neg">-1.0%</div>
+      <div class="cf-sub">-$1,416 / $140,000 down</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: TENANT SITUATION & FIRST-YEAR INCOME                       -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card warning">
+  <div class="section-title"><span class="st-icon">&#128101;</span> Current Tenant Situation &amp; Realistic First-Year Income</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    The property's income potential is severely compromised by the current occupancy status. A buyer inherits these conditions at closing, meaning <strong style="color:#fbbf24">months of lost revenue and turnover costs</strong> before rents can be stabilized.
+  </p>
+
+  <!-- Tenant Cards -->
+  <div class="tenant-grid">
+    <div class="tenant-card problem">
+      <div class="tc-header">
+        <span class="tc-unit">Unit 1 &mdash; Occupied</span>
+        <span class="tc-badge badge-orange">Property Damage Risk</span>
+      </div>
+      <div class="tc-rent" style="color:#fb923c">$2,050/mo</div>
+      <div class="tc-desc">
+        Currently occupied by tenants paying $2,050/mo who are <strong style="color:#fb923c">damaging the property and cluttering the common hallways</strong>. Living conditions raise serious concerns about negligent upkeep that could result in costly repairs upon turnover &mdash; cleaning, painting, potential floor/appliance damage. The inspection noted the unit's bedroom could not be fully evaluated because a tenant was sleeping. Turnover repair risk: <strong style="color:#fb923c">$1,000&ndash;$3,000</strong>.
+      </div>
+    </div>
+    <div class="tenant-card vacant">
+      <div class="tc-header">
+        <span class="tc-unit">Unit 2 &mdash; Vacant</span>
+        <span class="tc-badge badge-red">No Income</span>
+      </div>
+      <div class="tc-rent rent-zero">$0/mo</div>
+      <div class="tc-desc">
+        This unit is currently unoccupied and generating zero income. A new buyer must absorb full carrying costs while marketing and screening tenants. Estimated time to fill: <strong style="color:#e2e8f0">~2 months</strong>. Target rent once occupied: <strong style="color:#4ade80">$2,100/mo</strong>. Lost income during vacancy: <strong style="color:#f87171">$4,200</strong>.
+      </div>
+    </div>
+    <div class="tenant-card below-market">
+      <div class="tc-header">
+        <span class="tc-unit">Unit 3 &mdash; Occupied</span>
+        <span class="tc-badge badge-yellow">Below Market</span>
+      </div>
+      <div class="tc-rent rent-low">$1,300/mo</div>
+      <div class="tc-desc">
+        Current tenant is paying <strong style="color:#fbbf24">$1,300/month &mdash; significantly below market rate</strong>. Rent will be increased to <strong style="color:#e2e8f0">$1,800/mo</strong>, but this requires lease renegotiation or waiting for lease expiration. Massachusetts tenant protection laws may further delay this process. Current monthly shortfall vs. target: <strong style="color:#fbbf24">$500/mo ($6,000/yr)</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- First-Year Table -->
+  <div style="font-size:12px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Realistic First-Year Income Projection</div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:14px;line-height:1.5">
+    Assumes vacant Unit 2 filled in month 3 at $2,100/mo and Unit 3 rent increased from $1,300 to $1,800/mo at the same time. Unit 1 remains at $2,050/mo. Monthly expenses: $6,068. Includes conservative estimated $2,000 for Unit 1 deep cleaning and damage repair (bedroom was uninspected; full scope unknown until vacancy).
+  </p>
+
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="border-bottom:2px solid #2a3050">
+          <th style="text-align:left;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Month</th>
+          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Unit 1</th>
+          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Unit 2</th>
+          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Unit 3</th>
+          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Total Income</th>
+          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Expenses</th>
+          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Net</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #1e2740">
+          <td style="padding:10px;color:#e2e8f0;font-weight:600">Month 1</td>
+          <td style="padding:10px;text-align:right;color:#fb923c">$2,050</td>
+          <td style="padding:10px;text-align:right;color:#f87171">$0</td>
+          <td style="padding:10px;text-align:right;color:#fbbf24">$1,300</td>
+          <td style="padding:10px;text-align:right;color:#e2e8f0;font-weight:600">$3,350</td>
+          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
+          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$2,718</td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2740">
+          <td style="padding:10px;color:#e2e8f0;font-weight:600">Month 2</td>
+          <td style="padding:10px;text-align:right;color:#fb923c">$2,050</td>
+          <td style="padding:10px;text-align:right;color:#f87171">$0</td>
+          <td style="padding:10px;text-align:right;color:#fbbf24">$1,300</td>
+          <td style="padding:10px;text-align:right;color:#e2e8f0;font-weight:600">$3,350</td>
+          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
+          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$2,718</td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2740">
+          <td style="padding:10px;color:#e2e8f0;font-weight:600">Month 3</td>
+          <td style="padding:10px;text-align:right;color:#e2e8f0">$2,050</td>
+          <td style="padding:10px;text-align:right;color:#4ade80">$2,100</td>
+          <td style="padding:10px;text-align:right;color:#4ade80">$1,800</td>
+          <td style="padding:10px;text-align:right;color:#4ade80;font-weight:600">$5,950</td>
+          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
+          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$118</td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2740">
+          <td style="padding:10px;color:#e2e8f0;font-weight:600">Months 4&ndash;12</td>
+          <td style="padding:10px;text-align:right;color:#e2e8f0">$2,050</td>
+          <td style="padding:10px;text-align:right;color:#4ade80">$2,100</td>
+          <td style="padding:10px;text-align:right;color:#4ade80">$1,800</td>
+          <td style="padding:10px;text-align:right;color:#4ade80;font-weight:600">$5,950</td>
+          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
+          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$118 &times; 9</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
+      <span class="tr-label">Operating Loss (Yr 1)</span>
+      <span class="tr-value" style="color:#f87171">-$6,616</span>
+    </div>
+    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
+      <span class="tr-label">Unit 1 Deep Clean + Damages</span>
+      <span class="tr-value" style="color:#f87171">-$2,000</span>
+    </div>
+    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
+      <span class="tr-label">First-Year Net</span>
+      <span class="tr-value" style="color:#f87171;font-size:20px">-$8,616</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
+    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
+      <span class="tr-label">Months in the Red</span>
+      <span class="tr-value" style="color:#f87171">12 of 12</span>
+    </div>
+    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
+      <span class="tr-label">Stabilized Monthly Net</span>
+      <span class="tr-value" style="color:#f87171">-$118</span>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:#f87171;margin-top:10px;text-align:center">
+    This does not include the $9,400&ndash;$21,050 in inspection repair costs. Conservative Unit 1 cleaning/damage estimate ($1,000&ndash;$3,000); only confirmed issues are a missing cabinet floor and a faulty toilet fill valve. Full scope cannot be determined until the unit is vacated and fully inspected.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: TOTAL BUYER EXPOSURE                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#128184;</span> Costs Tied to Current Property Condition</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    These are costs a buyer must absorb <strong style="color:#e2e8f0">because of the property's current state</strong> &mdash; not standard transaction costs. They represent real value the buyer must put in before the property performs as an investment.
+  </p>
+
+  <div class="stats-grid">
+    <div class="stat-card expense">
+      <div class="label">Inspection Repairs</div>
+      <div class="value">$9,400 &ndash; $21,050</div>
+      <div class="sub">Safety, structural &amp; deferred maintenance</div>
+    </div>
+    <div class="stat-card expense">
+      <div class="label">First-Year Operating Loss</div>
+      <div class="value">$6,616</div>
+      <div class="sub">Vacancy + below-market rent gap</div>
+    </div>
+    <div class="stat-card expense">
+      <div class="label">Unit 1 Deep Clean + Damages</div>
+      <div class="value">$1,000 &ndash; $3,000</div>
+      <div class="sub">Conservative est.; bedroom uninspected</div>
+    </div>
+    <div class="stat-card" style="border-color:#dc262644">
+      <div class="label">Total Condition-Related Costs</div>
+      <div class="value" style="color:#f87171;font-size:24px">$17,016 &ndash; $30,666</div>
+      <div class="sub">Property is cash-flow negative even when fully stabilized</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: MACROECONOMIC RISK FACTORS                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card warning">
+  <div class="section-title"><span class="st-icon">&#127758;</span> Macroeconomic &amp; Global Risk Factors</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    The property-level risks above exist within a broader macroeconomic environment that amplifies the downside of this investment. The following global conditions increase the risk profile beyond what any inspection or income analysis can capture.
+  </p>
+
+  <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+
+    <div class="stat-card" style="border-color:#7c3aed55;background:linear-gradient(135deg,#1a1424,#1e1828)">
+      <div class="label" style="color:#a78bfa">&#128200; Rising Interest Rates</div>
+      <div class="value" style="color:#a78bfa;font-size:18px">Rate Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A 1% rate increase on a $560k loan adds ~$330/mo to carrying costs. This property already produces negative cash flow at 6.32% &mdash; any rate movement makes the math worse. Refinancing risk is real.</div>
+    </div>
+
+    <div class="stat-card" style="border-color:#dc262655;background:linear-gradient(135deg,#1a1418,#1e1820)">
+      <div class="label" style="color:#f87171">&#128680; Rising Unemployment</div>
+      <div class="value" style="color:#f87171;font-size:18px">Tenant Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">Unemployment increases tenant default risk and vacancy rates. Worcester&rsquo;s rental market is already under stress. A single missed month on this margin-thin property creates immediate out-of-pocket exposure with no cash reserve buffer.</div>
+    </div>
+
+    <div class="stat-card" style="border-color:#f9731655;background:linear-gradient(135deg,#1a1614,#1e1a18)">
+      <div class="label" style="color:#fb923c">&#9889; Rising Energy Costs</div>
+      <div class="value" style="color:#fb923c;font-size:18px">OpEx Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">Landlord-paid water and sewer costs are already factored in, but rising energy costs increase tenant burden and can strain rent affordability. Higher utility bills reduce tenants&rsquo; effective ability to pay &mdash; and can drive turnover in a tight budget household.</div>
+    </div>
+
+    <div class="stat-card" style="border-color:#fbbf2455;background:linear-gradient(135deg,#1a1a14,#1e1e18)">
+      <div class="label" style="color:#fbbf24">&#128201; Potential Recession</div>
+      <div class="value" style="color:#fbbf24;font-size:18px">Market Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A recession typically softens property values, compresses rents, and extends vacancy cycles. For a property that is already cash-flow negative at purchase, a 5&ndash;10% decline in market value would erode the down payment equity and extend the time horizon to break even significantly.</div>
+    </div>
+
+  </div>
+
+  <div class="total-row" style="margin-top:4px;border-color:#78350f">
+    <span class="tr-label" style="color:#fbbf24">Bottom Line on Macro Risk</span>
+    <span style="font-size:12px;color:#94a3b8;text-align:right;max-width:65%">This property has zero margin for error at $700k. Any one of these external pressures &mdash; alone or in combination &mdash; turns a manageable investment into a sustained financial loss.</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- BOTTOM LINE                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="bottom-line">
+  <h3>What This Property Is Actually Worth &mdash; $700,000</h3>
+  <p>
+    A property's value is determined by what it produces. Based on the current condition, income, and documented deficiencies of 21 Tatman Street, this property is worth <strong style="color:#a5b4fc">$700,000</strong>. Here is why:
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">1.</span> <strong>$9,400&ndash;$21,050 in repairs fall to the buyer</strong> based on the professional inspection, including an aging water heater, chimney damage, foundation tuck-pointing, and trip hazards. While the homeowner is addressing certain items prior to closing, these remaining issues are safety and structural concerns that reduce the property's value.
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">2.</span> <strong>Three areas could not be inspected at all</strong> &mdash; the attic, one bedroom, and the AC system &mdash; meaning a buyer absorbs unknown additional risk with no information to price it.
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">3.</span> <strong>The tenant in Unit 1 presents a property damage risk</strong> due to the condition of the unit, and turnover costs could add $1,000&ndash;$3,000 when the unit eventually needs to be restored to rentable condition (conservative; full scope unknown as the bedroom was uninspected).
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">4.</span> <strong>Between repairs, operating losses, and damage remediation, a buyer faces up to $30,666 in costs</strong> directly tied to the property's current condition &mdash; before it produces a single dollar of positive cash flow.
+  </p>
+  <br>
+  <p>
+    <strong style="color:#a5b4fc;font-size:16px">$700,000</strong> is what this property is worth based on its actual condition, its actual income, and the real costs a buyer must absorb to bring it to its full potential. This is a <strong>data-driven valuation</strong>.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- ASSESSED VALUE — REVEALED AFTER ALL EVIDENCE                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="offer-card">
+  <div class="offer-icon">&#128200;</div>
+  <div class="offer-text">
+    <h2>Assessed Property Value</h2>
+    <div class="offer-amount">$700,000</div>
+    <div class="offer-sub">
+      Based on the evidence presented above &mdash; <span>$9,400&ndash;$21,050</span> in documented repairs, <span>$6,616</span> in first-year operating losses, <span>$1,000&ndash;$3,000</span> in tenant damage remediation, three uninspected areas of unknown risk, and a stabilized net cash flow of <span>-$118/mo</span> &mdash; this is what the property is worth in its current condition.
+    </div>
+  </div>
+</div>
+
+<div class="footnote">
+  Inspection performed by L &amp; M Home Inspection Service, LLC &mdash; Richard Langevin, Inspector &middot; Property: 21 Tatman Street, Worcester, MA 01607<br>
+  Mortgage rate: 6.32% (30-yr fixed, March 2026) &middot; Worcester residential tax: $13.28/$1,000 (FY2026) &middot; This document is for negotiation purposes and does not constitute financial advice.
+</div>
+
+</body>
+</html>
