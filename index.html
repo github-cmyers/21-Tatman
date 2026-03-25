@@ -332,16 +332,282 @@
   </div>
   <div class="divider-v"></div>
   <div class="compare-item">
-    <div class="ci-title">Stabilized Net Cash Flow</div>
-    <div class="ci-val" style="color:#f87171">-$118/mo</div>
-    <div class="ci-diff ci-red">At $700k &mdash; cash flow negative</div>
+    <div class="ci-title">Comp-Supported Value</div>
+    <div class="ci-val" style="color:#fbbf24">$635k &ndash; $660k</div>
+    <div class="ci-diff ci-muted">Based on 4 recent 3-family sales</div>
   </div>
   <div class="divider-v"></div>
   <div class="compare-item">
-    <div class="ci-title">First-Year Loss</div>
-    <div class="ci-val" style="color:#f87171">-$8,616</div>
-    <div class="ci-diff ci-red">Before repair costs</div>
+    <div class="ci-title">Renovation-Adj $/Sqft</div>
+    <div class="ci-val" style="color:#a5b4fc">$240 &ndash; $250</div>
+    <div class="ci-diff ci-muted">Reflects renovated interiors &amp; new systems</div>
   </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION: COMPARABLE MARKET ANALYSIS                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<style>
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .comp-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 14px; overflow: hidden; transition: border-color 0.2s; }
+  .comp-card:hover { border-color: #3b4a6b; }
+  .comp-card .comp-img { width: 100%; height: 180px; object-fit: cover; display: block; background: #1a1f2e; }
+  .comp-card .comp-body { padding: 16px; }
+  .comp-card .comp-addr { font-size: 14px; font-weight: 700; color: #e2e8f0; margin-bottom: 2px; }
+  .comp-card .comp-sub { font-size: 11px; color: #64748b; margin-bottom: 10px; }
+  .comp-card .comp-price { font-size: 22px; font-weight: 800; color: #4ade80; margin-bottom: 4px; }
+  .comp-card .comp-ppsf { font-size: 12px; color: #8892b0; margin-bottom: 12px; }
+  .comp-card .comp-specs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .comp-card .comp-spec { font-size: 11px; color: #94a3b8; background: #161b28; border: 1px solid #1e2740; border-radius: 6px; padding: 4px 10px; }
+  .comp-card .comp-note { font-size: 11px; color: #64748b; line-height: 1.5; }
+  .comp-card.subject { border-color: #6366f155; background: linear-gradient(135deg, #12142066, #161b28); }
+  .comp-card.subject .comp-price { color: #a5b4fc; }
+  .comp-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .comp-summary-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 10px; padding: 16px; text-align: center; }
+  .comp-summary-card .cs-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; }
+  .comp-summary-card .cs-val { font-size: 22px; font-weight: 800; }
+  .comp-summary-card .cs-sub { font-size: 11px; color: #475569; margin-top: 4px; }
+  .comp-verdict { background: linear-gradient(135deg, #1a1418, #1e1a1c); border: 1px solid #7f1d1d; border-radius: 12px; padding: 18px 22px; margin-top: 16px; }
+  .comp-verdict .cv-title { font-size: 13px; font-weight: 700; color: #f87171; margin-bottom: 8px; }
+  .comp-verdict p { font-size: 12px; color: #94a3b8; line-height: 1.7; }
+  .comp-verdict strong { color: #e2e8f0; }
+  .comp-table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .comp-table th { text-align: left; padding: 10px 12px; color: #64748b; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #2a3050; }
+  .comp-table td { padding: 10px 12px; border-bottom: 1px solid #1e2740; color: #cbd5e1; }
+  .comp-table tr.subject-row { background: #6366f10a; }
+  .comp-table tr.subject-row td { color: #a5b4fc; font-weight: 600; }
+  .comp-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .comp-tag.tag-same-st { background: #4ade8022; border: 1px solid #4ade8044; color: #4ade80; }
+  .comp-tag.tag-nearby { background: #38bdf822; border: 1px solid #38bdf844; color: #38bdf8; }
+  .comp-tag.tag-renovated { background: #a78bfa22; border: 1px solid #a78bfa44; color: #a78bfa; }
+  @media print {
+    .comp-card, .comp-summary-card, .comp-verdict { background: #fff !important; border-color: #ccc !important; }
+    .comp-card .comp-addr, .comp-card .comp-price { color: #1a1a1a !important; }
+    .comp-card .comp-sub, .comp-card .comp-ppsf, .comp-card .comp-note, .comp-card .comp-spec { color: #444 !important; }
+    .comp-card.subject { background: #f0f0ff !important; border-color: #a5b4fc !important; }
+    .comp-card.subject .comp-price { color: #1e3a5f !important; }
+    .comp-summary-card { background: #fff !important; border-color: #ccc !important; }
+    .comp-summary-card .cs-val { color: #1a1a1a !important; }
+    .comp-verdict { background: #fff5f5 !important; border-color: #fca5a5 !important; }
+    .comp-verdict .cv-title { color: #991b1b !important; }
+    .comp-verdict p { color: #444 !important; }
+    .comp-verdict strong { color: #1a1a1a !important; }
+    .comp-table th { background: #f3f4f6 !important; color: #1a1a1a !important; border-bottom: 2px solid #999 !important; }
+    .comp-table td { color: #1a1a1a !important; border-bottom: 1px solid #e5e7eb !important; }
+    .comp-table tr.subject-row { background: #eef2ff !important; }
+    .comp-table tr.subject-row td { color: #1e3a5f !important; }
+    .comp-tag { border-color: #999 !important; }
+    .comp-tag.tag-same-st { background: #dcfce7 !important; color: #166534 !important; }
+    .comp-tag.tag-nearby { background: #e0f2fe !important; color: #0c4a6e !important; }
+    .comp-tag.tag-renovated { background: #ede9fe !important; color: #5b21b6 !important; }
+    .comp-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px !important; }
+    .comp-card .comp-img { height: 120px; }
+    .comp-card .comp-body { padding: 10px !important; }
+    .comp-summary-grid { gap: 8px !important; }
+    .comp-summary-card { padding: 10px !important; }
+  }
+</style>
+
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#127968;</span> Comparable Market Analysis &mdash; Recent 3-Family Sales in 01607</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.6">
+    The following recently sold 3-family properties in Worcester&rsquo;s 01607 zip code (and nearby) provide the most relevant market comparables for 21 Tatman Street. Data sourced from MLS records. 21 Tatman&rsquo;s <strong style="color:#4ade80">recently renovated interiors, new roof (1&ndash;5 yrs), Mitsubishi mini-split AC, replacement vinyl windows, and 3 newer water heaters</strong> justify pricing toward the upper end of comparables. At a <strong style="color:#a5b4fc">$700,000 asking price</strong> ($264/sqft), the property is still priced <strong style="color:#fbbf24">$40k&ndash;$65k above</strong> what even the strongest comps support.
+  </p>
+
+  <!-- Comp Cards with Photos -->
+  <div class="comp-grid">
+
+    <!-- COMP 1: 5 Tatman St -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://images-listings.coldwellbanker.com/MLSPIN/73/42/93/11/_P/73429311_P00.jpg" alt="5 Tatman St, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">5 Tatman St <span class="comp-tag tag-same-st">Same Street</span></div>
+        <div class="comp-sub">Worcester, MA 01607 &bull; Sold Nov 14, 2025</div>
+        <div class="comp-price">$650,000</div>
+        <div class="comp-ppsf">$214/sqft &mdash; <span style="color:#4ade80">19% less per sqft than 21 Tatman at $700k</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">7 Bed</span>
+          <span class="comp-spec">3 Bath</span>
+          <span class="comp-spec">3,036 sqft</span>
+          <span class="comp-spec">Built 1880</span>
+          <span class="comp-spec">Lot: 6,145 sqft</span>
+        </div>
+        <div class="comp-note">Brand new roof, partially fenced backyard with patio, off-street parking, 1-car garage. Larger than 21 Tatman by 390 sqft. <strong style="color:#fbbf24">Interior renovation status unknown &mdash; 21 Tatman&rsquo;s renovated units may justify a premium, but not $50k+ on a smaller footprint.</strong></div>
+      </div>
+    </div>
+
+    <!-- COMP 2: 62 Whipple St -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://dvvjkgh94f2v6.cloudfront.net/6a24dcf8/73279257/83dcefb7.jpeg" alt="62 Whipple St, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">62 Whipple St <span class="comp-tag tag-nearby">0.3 mi Away</span></div>
+        <div class="comp-sub">Worcester, MA 01607 &bull; Sold Nov 20, 2024</div>
+        <div class="comp-price">$670,000</div>
+        <div class="comp-ppsf">$231/sqft &mdash; <span style="color:#4ade80">12% less per sqft than 21 Tatman at $700k</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">6 Bed</span>
+          <span class="comp-spec">3 Bath</span>
+          <span class="comp-spec">2,898 sqft</span>
+          <span class="comp-spec">Built 1914</span>
+          <span class="comp-spec">Lot: 0.12 ac</span>
+        </div>
+        <div class="comp-note">New roof (June 2024), vinyl windows, well-maintained exterior. Each unit: 2 bed, kitchen, living room, laundry. Long-term tenants on 2nd &amp; 3rd floors. Listed $689,900 &mdash; sold at 97% of ask.</div>
+      </div>
+    </div>
+
+    <!-- COMP 3: 49 Granite St -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://media.mlspin.com/photo.aspx?mls=73319495&h=480&w=640&n=0" alt="49 Granite St, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">49 Granite St <span class="comp-tag tag-renovated">Renovated</span></div>
+        <div class="comp-sub">Worcester, MA 01604 &bull; Sold Mar 10, 2025</div>
+        <div class="comp-price">$782,895</div>
+        <div class="comp-ppsf">$209/sqft &mdash; <span style="color:#4ade80">21% less per sqft than 21 Tatman at $700k</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">6 Bed</span>
+          <span class="comp-spec">3 Bath</span>
+          <span class="comp-spec">3,750 sqft</span>
+          <span class="comp-spec">Built 1900</span>
+        </div>
+        <div class="comp-note">Fully occupied triple-decker, <strong style="color:#a78bfa">recently renovated 3rd floor</strong>, modernized electrical, new water heaters. Sold for $83k more but is <strong style="color:#fbbf24">42% larger</strong> &mdash; still cheaper per sqft.</div>
+      </div>
+    </div>
+
+    <!-- COMP 4: 17 5th Ave -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://media.mlspin.com/photo.aspx?mls=73369767&h=480&w=640&n=0" alt="17 5th Ave, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">17 5th Ave <span class="comp-tag tag-nearby">Same Zip</span></div>
+        <div class="comp-sub">Worcester, MA 01607 &bull; Sold Apr 11, 2025</div>
+        <div class="comp-price">$840,000</div>
+        <div class="comp-ppsf">$248/sqft &mdash; <span style="color:#fbbf24">highest comp, still 6% below 21 Tatman at $700k</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">7 Bed</span>
+          <span class="comp-spec">4 Bath</span>
+          <span class="comp-spec">3,388 sqft</span>
+          <span class="comp-spec">Built/Reno 2021</span>
+        </div>
+        <div class="comp-note">Owner-occupied 3-unit, each unit 2 bed/1 bath with W/D hookup. <strong style="color:#a78bfa">Newest construction on this list</strong> &mdash; commands a premium. Even at $248/sqft, 21 Tatman would be worth only ~$656k.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Comparison Table -->
+  <div style="font-size:11px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Side-by-Side Comparison</div>
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th style="text-align:right">Sold Price</th>
+          <th style="text-align:right">Sqft</th>
+          <th style="text-align:right">$/Sqft</th>
+          <th style="text-align:center">Bed/Bath</th>
+          <th>Year Built</th>
+          <th>Sold Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="subject-row">
+          <td><strong>21 Tatman St &#9733;</strong></td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#a5b4fc">$700,000</td>
+          <td style="text-align:right">2,646</td>
+          <td style="text-align:right;color:#f87171"><strong>$264</strong></td>
+          <td style="text-align:center">6 / 3</td>
+          <td>1890</td>
+          <td style="color:#fbbf24">Asking</td>
+        </tr>
+        <tr>
+          <td>5 Tatman St</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$650,000</td>
+          <td style="text-align:right">3,036</td>
+          <td style="text-align:right">$214</td>
+          <td style="text-align:center">7 / 3</td>
+          <td>1880</td>
+          <td>Nov 2025</td>
+        </tr>
+        <tr>
+          <td>62 Whipple St</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$670,000</td>
+          <td style="text-align:right">2,898</td>
+          <td style="text-align:right">$231</td>
+          <td style="text-align:center">6 / 3</td>
+          <td>1914</td>
+          <td>Nov 2024</td>
+        </tr>
+        <tr>
+          <td>49 Granite St</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$782,895</td>
+          <td style="text-align:right">3,750</td>
+          <td style="text-align:right">$209</td>
+          <td style="text-align:center">6 / 3</td>
+          <td>1900</td>
+          <td>Mar 2025</td>
+        </tr>
+        <tr>
+          <td>17 5th Ave</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$840,000</td>
+          <td style="text-align:right">3,388</td>
+          <td style="text-align:right">$248</td>
+          <td style="text-align:center">7 / 4</td>
+          <td>2021</td>
+          <td>Apr 2025</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="comp-summary-grid">
+    <div class="comp-summary-card">
+      <div class="cs-label">Comp Avg $/Sqft</div>
+      <div class="cs-val" style="color:#4ade80">$226</div>
+      <div class="cs-sub">Across 4 comparable sales</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">Renovation-Adjusted $/Sqft</div>
+      <div class="cs-val" style="color:#a5b4fc">$240&ndash;$250</div>
+      <div class="cs-sub">Reflects renovated interiors, new systems</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">21 Tatman $/Sqft at $700k</div>
+      <div class="cs-val" style="color:#f87171">$264</div>
+      <div class="cs-sub">Still 6&ndash;10% above adjusted range</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">Fair Value Range</div>
+      <div class="cs-val" style="color:#fbbf24">$635k&ndash;$660k</div>
+      <div class="cs-sub">2,646 sqft &times; $240&ndash;$250/sqft</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">Best Comp: 5 Tatman</div>
+      <div class="cs-val" style="color:#4ade80">$650k</div>
+      <div class="cs-sub">Same street, larger, new roof</div>
+    </div>
+  </div>
+
+  <!-- Verdict -->
+  <div class="comp-verdict">
+    <div class="cv-title">&#9888;&#65039; Comparable-Supported Value: $635,000 &ndash; $660,000</div>
+    <p>
+      21 Tatman&rsquo;s <strong>recently renovated interiors</strong>, new roof (1&ndash;5 yrs), Mitsubishi mini-split AC, replacement vinyl windows, 3 newer water heaters, and modern PEX plumbing are genuine value-adds that place it above the baseline comp average of $226/sqft. The professional inspection confirmed that <strong>all living rooms, kitchens, bathrooms, and bedrooms are in satisfactory condition</strong> &mdash; deficiencies are limited to exterior/cosmetic items and one aging water heater.
+    </p>
+    <p style="margin-top:10px">
+      Adjusting for renovation quality, a <strong style="color:#a5b4fc">$240&ndash;$250/sqft</strong> range is supportable, yielding a fair value of <strong style="color:#fbbf24">$635,000&ndash;$660,000</strong>. However, $700,000 ($264/sqft) would still exceed even the <strong>2021-built property at 17 5th Ave ($248/sqft)</strong> and price 21 Tatman as the most expensive per-sqft 3-family sale in the area. The closest comp &mdash; <strong>5 Tatman St, same street, 390 sqft larger</strong> &mdash; sold for $650,000 in November 2025. Remaining deferred maintenance of <strong style="color:#f87171">$8,000&ndash;$15,000</strong> (chimney, foundation tuck-pointing, electrical panel, aging water heater) and the <strong style="color:#fbbf24">income shortfall from a vacant unit and below-market tenant</strong> further support a price below $700k.
+    </p>
+  </div>
+
+  <p style="font-size:11px;color:#475569;margin-top:12px;text-align:center">
+    Sources: MLS/MLSPIN records, Coldwell Banker, Redfin, Homes.com. Sales within 01607 zip code unless noted. Data as of March 2026.
+  </p>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
@@ -626,276 +892,31 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 4: CASH FLOW AT $700,000                                      -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<div class="card">
-  <div class="section-title"><span class="st-icon">&#128176;</span> Monthly Cash Flow Analysis at $700,000</div>
-  <p style="font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.6">
-    At a purchase price of $700,000, the property produces <strong style="color:#f87171">negative cash flow even when fully stabilized</strong>. This analysis assumes all 3 units are occupied at target rents ($2,100 + $2,050 + $1,800 = $5,950/mo) &mdash; a best-case scenario that will take months to achieve given the current tenant situation.
-  </p>
-
-  <!-- Expense Breakdown -->
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">Mortgage (P&amp;I) &mdash; $560k loan @ 6.32%, 30yr</span>
-      <span class="bar-amount" style="color:#818cf8">$3,480</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:100%;background:linear-gradient(90deg,#6366f1,#818cf8)"></div></div>
-  </div>
-
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">Property Tax ($13.28/$1,000 &mdash; FY2026)</span>
-      <span class="bar-amount" style="color:#f87171">$775</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:22.3%;background:linear-gradient(90deg,#dc2626,#f87171)"></div></div>
-  </div>
-
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">Landlord Insurance</span>
-      <span class="bar-amount" style="color:#fb923c">$250</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:7.2%;background:linear-gradient(90deg,#c2410c,#fb923c)"></div></div>
-  </div>
-
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">Maintenance &amp; Repairs (1% of value/yr)</span>
-      <span class="bar-amount" style="color:#fbbf24">$583</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:16.8%;background:linear-gradient(90deg,#d97706,#fbbf24)"></div></div>
-  </div>
-
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">Water / Sewer (landlord-paid)</span>
-      <span class="bar-amount" style="color:#38bdf8">$200</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:5.8%;background:linear-gradient(90deg,#0369a1,#38bdf8)"></div></div>
-  </div>
-
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">Vacancy Reserve (7.5% of rent)</span>
-      <span class="bar-amount" style="color:#a78bfa">$446</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:12.8%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
-  </div>
-
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">CapEx Reserve (0.4% of value/yr)</span>
-      <span class="bar-amount" style="color:#94a3b8">$233</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:6.7%;background:linear-gradient(90deg,#475569,#94a3b8)"></div></div>
-  </div>
-
-  <div class="bar-item">
-    <div class="bar-row">
-      <span class="bar-name">CPA Surcharge + Misc</span>
-      <span class="bar-amount" style="color:#94a3b8">$101</span>
-    </div>
-    <div class="bar-track"><div class="bar-fill" style="width:2.9%;background:#64748b"></div></div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="total-row">
-    <span class="tr-label">Total Monthly Expenses</span>
-    <span class="tr-value" style="color:#f87171">$6,068</span>
-  </div>
-
-  <div style="height:18px"></div>
-
-  <!-- Cash Flow Cards -->
-  <div class="cf-grid">
-    <div class="cf-card">
-      <div class="cf-label">Gross Rent (Stabilized)</div>
-      <div class="cf-val cf-pos">$5,950</div>
-      <div class="cf-sub">$2,100 + $2,050 + $1,800</div>
-    </div>
-    <div class="cf-card">
-      <div class="cf-label">Monthly Net Cash Flow</div>
-      <div class="cf-val cf-neg">-$118</div>
-      <div class="cf-sub">Negative even when fully stabilized</div>
-    </div>
-    <div class="cf-card">
-      <div class="cf-label">Annual Net</div>
-      <div class="cf-val cf-neg">-$1,416</div>
-      <div class="cf-sub">-$118 &times; 12 months</div>
-    </div>
-    <div class="cf-card">
-      <div class="cf-label">Cash-on-Cash Return</div>
-      <div class="cf-val cf-neg">-1.0%</div>
-      <div class="cf-sub">-$1,416 / $140,000 down</div>
-    </div>
-  </div>
-</div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 6: TENANT SITUATION & FIRST-YEAR INCOME                       -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<div class="card warning">
-  <div class="section-title"><span class="st-icon">&#128101;</span> Current Tenant Situation &amp; Realistic First-Year Income</div>
-  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
-    The property's income potential is severely compromised by the current occupancy status. A buyer inherits these conditions at closing, meaning <strong style="color:#fbbf24">months of lost revenue and turnover costs</strong> before rents can be stabilized.
-  </p>
-
-  <!-- Tenant Cards -->
-  <div class="tenant-grid">
-    <div class="tenant-card problem">
-      <div class="tc-header">
-        <span class="tc-unit">Unit 1 &mdash; Occupied</span>
-        <span class="tc-badge badge-orange">Property Damage Risk</span>
-      </div>
-      <div class="tc-rent" style="color:#fb923c">$2,050/mo</div>
-      <div class="tc-desc">
-        Currently occupied by tenants paying $2,050/mo who are <strong style="color:#fb923c">damaging the property and cluttering the common hallways</strong>. Living conditions raise serious concerns about negligent upkeep that could result in costly repairs upon turnover &mdash; cleaning, painting, potential floor/appliance damage. The inspection noted the unit's bedroom could not be fully evaluated because a tenant was sleeping. Turnover repair risk: <strong style="color:#fb923c">$1,000&ndash;$3,000</strong>.
-      </div>
-    </div>
-    <div class="tenant-card vacant">
-      <div class="tc-header">
-        <span class="tc-unit">Unit 2 &mdash; Vacant</span>
-        <span class="tc-badge badge-red">No Income</span>
-      </div>
-      <div class="tc-rent rent-zero">$0/mo</div>
-      <div class="tc-desc">
-        This unit is currently unoccupied and generating zero income. A new buyer must absorb full carrying costs while marketing and screening tenants. Estimated time to fill: <strong style="color:#e2e8f0">~2 months</strong>. Target rent once occupied: <strong style="color:#4ade80">$2,100/mo</strong>. Lost income during vacancy: <strong style="color:#f87171">$4,200</strong>.
-      </div>
-    </div>
-    <div class="tenant-card below-market">
-      <div class="tc-header">
-        <span class="tc-unit">Unit 3 &mdash; Occupied</span>
-        <span class="tc-badge badge-yellow">Below Market</span>
-      </div>
-      <div class="tc-rent rent-low">$1,300/mo</div>
-      <div class="tc-desc">
-        Current tenant is paying <strong style="color:#fbbf24">$1,300/month &mdash; significantly below market rate</strong>. Rent will be increased to <strong style="color:#e2e8f0">$1,800/mo</strong>, but this requires lease renegotiation or waiting for lease expiration. Massachusetts tenant protection laws may further delay this process. Current monthly shortfall vs. target: <strong style="color:#fbbf24">$500/mo ($6,000/yr)</strong>.
-      </div>
-    </div>
-  </div>
-
-  <!-- First-Year Table -->
-  <div style="font-size:12px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Realistic First-Year Income Projection</div>
-  <p style="font-size:12px;color:#64748b;margin-bottom:14px;line-height:1.5">
-    Assumes vacant Unit 2 filled in month 3 at $2,100/mo and Unit 3 rent increased from $1,300 to $1,800/mo at the same time. Unit 1 remains at $2,050/mo. Monthly expenses: $6,068. Includes conservative estimated $2,000 for Unit 1 deep cleaning and damage repair (bedroom was uninspected; full scope unknown until vacancy).
-  </p>
-
-  <div style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <thead>
-        <tr style="border-bottom:2px solid #2a3050">
-          <th style="text-align:left;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Month</th>
-          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Unit 1</th>
-          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Unit 2</th>
-          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Unit 3</th>
-          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Total Income</th>
-          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Expenses</th>
-          <th style="text-align:right;padding:10px;color:#64748b;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Net</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom:1px solid #1e2740">
-          <td style="padding:10px;color:#e2e8f0;font-weight:600">Month 1</td>
-          <td style="padding:10px;text-align:right;color:#fb923c">$2,050</td>
-          <td style="padding:10px;text-align:right;color:#f87171">$0</td>
-          <td style="padding:10px;text-align:right;color:#fbbf24">$1,300</td>
-          <td style="padding:10px;text-align:right;color:#e2e8f0;font-weight:600">$3,350</td>
-          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
-          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$2,718</td>
-        </tr>
-        <tr style="border-bottom:1px solid #1e2740">
-          <td style="padding:10px;color:#e2e8f0;font-weight:600">Month 2</td>
-          <td style="padding:10px;text-align:right;color:#fb923c">$2,050</td>
-          <td style="padding:10px;text-align:right;color:#f87171">$0</td>
-          <td style="padding:10px;text-align:right;color:#fbbf24">$1,300</td>
-          <td style="padding:10px;text-align:right;color:#e2e8f0;font-weight:600">$3,350</td>
-          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
-          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$2,718</td>
-        </tr>
-        <tr style="border-bottom:1px solid #1e2740">
-          <td style="padding:10px;color:#e2e8f0;font-weight:600">Month 3</td>
-          <td style="padding:10px;text-align:right;color:#e2e8f0">$2,050</td>
-          <td style="padding:10px;text-align:right;color:#4ade80">$2,100</td>
-          <td style="padding:10px;text-align:right;color:#4ade80">$1,800</td>
-          <td style="padding:10px;text-align:right;color:#4ade80;font-weight:600">$5,950</td>
-          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
-          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$118</td>
-        </tr>
-        <tr style="border-bottom:1px solid #1e2740">
-          <td style="padding:10px;color:#e2e8f0;font-weight:600">Months 4&ndash;12</td>
-          <td style="padding:10px;text-align:right;color:#e2e8f0">$2,050</td>
-          <td style="padding:10px;text-align:right;color:#4ade80">$2,100</td>
-          <td style="padding:10px;text-align:right;color:#4ade80">$1,800</td>
-          <td style="padding:10px;text-align:right;color:#4ade80;font-weight:600">$5,950</td>
-          <td style="padding:10px;text-align:right;color:#f87171">$6,068</td>
-          <td style="padding:10px;text-align:right;color:#f87171;font-weight:700">-$118 &times; 9</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
-    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
-      <span class="tr-label">Operating Loss (Yr 1)</span>
-      <span class="tr-value" style="color:#f87171">-$6,616</span>
-    </div>
-    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
-      <span class="tr-label">Unit 1 Deep Clean + Damages</span>
-      <span class="tr-value" style="color:#f87171">-$2,000</span>
-    </div>
-    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
-      <span class="tr-label">First-Year Net</span>
-      <span class="tr-value" style="color:#f87171;font-size:20px">-$8,616</span>
-    </div>
-  </div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
-      <span class="tr-label">Months in the Red</span>
-      <span class="tr-value" style="color:#f87171">12 of 12</span>
-    </div>
-    <div class="total-row" style="flex:1;min-width:200px;margin-top:0">
-      <span class="tr-label">Stabilized Monthly Net</span>
-      <span class="tr-value" style="color:#f87171">-$118</span>
-    </div>
-  </div>
-
-  <p style="font-size:11px;color:#f87171;margin-top:10px;text-align:center">
-    This does not include the $9,400&ndash;$21,050 in inspection repair costs. Conservative Unit 1 cleaning/damage estimate ($1,000&ndash;$3,000); only confirmed issues are a missing cabinet floor and a faulty toilet fill valve. Full scope cannot be determined until the unit is vacated and fully inspected.
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 5: TOTAL BUYER EXPOSURE                                       -->
+<!-- SECTION 5: REMAINING BUYER COSTS                                      -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="section-title"><span class="st-icon">&#128184;</span> Costs Tied to Current Property Condition</div>
+  <div class="section-title"><span class="st-icon">&#128184;</span> Remaining Costs a Buyer Must Absorb</div>
   <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
-    These are costs a buyer must absorb <strong style="color:#e2e8f0">because of the property's current state</strong> &mdash; not standard transaction costs. They represent real value the buyer must put in before the property performs as an investment.
+    While the interiors are in good condition, the following deferred exterior and mechanical items remain. These costs reduce the property&rsquo;s effective value below its comp-supported range.
   </p>
 
   <div class="stats-grid">
     <div class="stat-card expense">
-      <div class="label">Inspection Repairs</div>
-      <div class="value">$9,400 &ndash; $21,050</div>
-      <div class="sub">Safety, structural &amp; deferred maintenance</div>
+      <div class="label">Exterior &amp; Mechanical Repairs</div>
+      <div class="value">$8,000 &ndash; $15,000</div>
+      <div class="sub">Chimney, foundation tuck-pointing, electrical panel, water heater</div>
     </div>
     <div class="stat-card expense">
-      <div class="label">First-Year Operating Loss</div>
-      <div class="value">$6,616</div>
-      <div class="sub">Vacancy + below-market rent gap</div>
-    </div>
-    <div class="stat-card expense">
-      <div class="label">Unit 1 Deep Clean + Damages</div>
-      <div class="value">$1,000 &ndash; $3,000</div>
-      <div class="sub">Conservative est.; bedroom uninspected</div>
+      <div class="label">Minor Deferred Maintenance</div>
+      <div class="value">$1,400 &ndash; $3,050</div>
+      <div class="sub">Walkway, porch, paint, gutter, plumbing items</div>
     </div>
     <div class="stat-card" style="border-color:#dc262644">
-      <div class="label">Total Condition-Related Costs</div>
-      <div class="value" style="color:#f87171;font-size:24px">$17,016 &ndash; $30,666</div>
-      <div class="sub">Property is cash-flow negative even when fully stabilized</div>
+      <div class="label">Total Deferred Costs</div>
+      <div class="value" style="color:#f87171;font-size:24px">$9,400 &ndash; $18,050</div>
+      <div class="sub">Per professional inspection &mdash; reduces effective value</div>
     </div>
   </div>
 </div>
@@ -914,13 +935,13 @@
     <div class="stat-card" style="border-color:#7c3aed55;background:linear-gradient(135deg,#1a1424,#1e1828)">
       <div class="label" style="color:#a78bfa">&#128200; Rising Interest Rates</div>
       <div class="value" style="color:#a78bfa;font-size:18px">Rate Risk</div>
-      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A 1% rate increase on a $560k loan adds ~$330/mo to carrying costs. This property already produces negative cash flow at 6.32% &mdash; any rate movement makes the math worse. Refinancing risk is real.</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A 1% rate increase on a $528k loan adds ~$310/mo to carrying costs. Rate volatility compresses margins on an already tight investment. Refinancing risk is real if rates don&rsquo;t decline.</div>
     </div>
 
     <div class="stat-card" style="border-color:#dc262655;background:linear-gradient(135deg,#1a1418,#1e1820)">
       <div class="label" style="color:#f87171">&#128680; Rising Unemployment</div>
       <div class="value" style="color:#f87171;font-size:18px">Tenant Risk</div>
-      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">Unemployment increases tenant default risk and vacancy rates. Worcester&rsquo;s rental market is already under stress. A single missed month on this margin-thin property creates immediate out-of-pocket exposure with no cash reserve buffer.</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">Unemployment increases tenant default risk and vacancy rates. Worcester&rsquo;s rental market is already under stress. A single missed month on a margin-thin multi-family creates immediate out-of-pocket exposure for the owner.</div>
     </div>
 
     <div class="stat-card" style="border-color:#f9731655;background:linear-gradient(135deg,#1a1614,#1e1a18)">
@@ -932,14 +953,14 @@
     <div class="stat-card" style="border-color:#fbbf2455;background:linear-gradient(135deg,#1a1a14,#1e1e18)">
       <div class="label" style="color:#fbbf24">&#128201; Potential Recession</div>
       <div class="value" style="color:#fbbf24;font-size:18px">Market Risk</div>
-      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A recession typically softens property values, compresses rents, and extends vacancy cycles. For a property that is already cash-flow negative at purchase, a 5&ndash;10% decline in market value would erode the down payment equity and extend the time horizon to break even significantly.</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A recession typically softens property values, compresses rents, and extends vacancy cycles. For a property purchased at the top of its comp range, a 5&ndash;10% decline in market value would erode the down payment equity and extend the time horizon to break even significantly.</div>
     </div>
 
   </div>
 
   <div class="total-row" style="margin-top:4px;border-color:#78350f">
     <span class="tr-label" style="color:#fbbf24">Bottom Line on Macro Risk</span>
-    <span style="font-size:12px;color:#94a3b8;text-align:right;max-width:65%">This property has zero margin for error at $700k. Any one of these external pressures &mdash; alone or in combination &mdash; turns a manageable investment into a sustained financial loss.</span>
+    <span style="font-size:12px;color:#94a3b8;text-align:right;max-width:65%">Even at $660k, this property has thin margins. Any one of these external pressures &mdash; alone or in combination &mdash; amplifies the risk for an investor entering at the top of the comp range.</span>
   </div>
 </div>
 
@@ -947,29 +968,29 @@
 <!-- BOTTOM LINE                                                           -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <div class="bottom-line">
-  <h3>What This Property Is Actually Worth &mdash; $700,000</h3>
+  <h3>What This Property Is Actually Worth &mdash; $660,000</h3>
   <p>
-    A property's value is determined by what it produces. Based on the current condition, income, and documented deficiencies of 21 Tatman Street, this property is worth <strong style="color:#a5b4fc">$700,000</strong>. Here is why:
+    21 Tatman Street is a solid 3-family with <strong>genuinely renovated interiors</strong>, a newer roof, Mitsubishi mini-split AC, replacement windows, and 3 of 4 newer water heaters. The professional inspection confirmed that all living spaces, kitchens, bathrooms, and bedrooms are in satisfactory condition. This is a well-maintained property &mdash; and its value should reflect that. Based on comparable sales and the remaining deferred items, this property is worth <strong style="color:#a5b4fc">$660,000</strong>. Here is why:
   </p>
   <br>
   <p>
-    <span class="bl-highlight">1.</span> <strong>$9,400&ndash;$21,050 in repairs fall to the buyer</strong> based on the professional inspection, including an aging water heater, chimney damage, foundation tuck-pointing, and trip hazards. While the homeowner is addressing certain items prior to closing, these remaining issues are safety and structural concerns that reduce the property's value.
+    <span class="bl-highlight">1.</span> <strong>Four recent 3-family sales in the area average $226/sqft.</strong> Adjusting upward for 21 Tatman&rsquo;s renovated condition yields $240&ndash;$250/sqft, or <strong>$635,000&ndash;$660,000</strong>. The most relevant comp &mdash; 5 Tatman St, same street, 390 sqft larger, with a new roof &mdash; sold for $650,000 in November 2025.
   </p>
   <br>
   <p>
-    <span class="bl-highlight">2.</span> <strong>Three areas could not be inspected at all</strong> &mdash; the attic, one bedroom, and the AC system &mdash; meaning a buyer absorbs unknown additional risk with no information to price it.
+    <span class="bl-highlight">2.</span> <strong>$9,400&ndash;$18,050 in deferred exterior and mechanical repairs remain,</strong> including chimney masonry, foundation tuck-pointing, one rusty electrical panel, and one aging water heater. These are real costs a buyer absorbs that the comp properties did not carry.
   </p>
   <br>
   <p>
-    <span class="bl-highlight">3.</span> <strong>The tenant in Unit 1 presents a property damage risk</strong> due to the condition of the unit, and turnover costs could add $1,000&ndash;$3,000 when the unit eventually needs to be restored to rentable condition (conservative; full scope unknown as the bedroom was uninspected).
+    <span class="bl-highlight">3.</span> <strong>Three areas could not be inspected</strong> &mdash; the attic, one bedroom, and the AC system &mdash; meaning a buyer accepts unknown additional risk that cannot yet be priced.
   </p>
   <br>
   <p>
-    <span class="bl-highlight">4.</span> <strong>Between repairs, operating losses, and damage remediation, a buyer faces up to $30,666 in costs</strong> directly tied to the property's current condition &mdash; before it produces a single dollar of positive cash flow.
+    <span class="bl-highlight">4.</span> <strong>At $700,000 ($264/sqft), this would be the most expensive per-sqft 3-family sale in the area</strong> &mdash; exceeding even the 2021-built property at 17 5th Ave ($248/sqft). The data does not support a price above $660,000.
   </p>
   <br>
   <p>
-    <strong style="color:#a5b4fc;font-size:16px">$700,000</strong> is what this property is worth based on its actual condition, its actual income, and the real costs a buyer must absorb to bring it to its full potential. This is a <strong>data-driven valuation</strong>.
+    <strong style="color:#a5b4fc;font-size:16px">$660,000</strong> reflects the property&rsquo;s renovated condition, its real market comparables, and the remaining costs a buyer must absorb. This is a <strong>data-driven, comp-supported valuation</strong>.
   </p>
 </div>
 
@@ -980,16 +1001,16 @@
   <div class="offer-icon">&#128200;</div>
   <div class="offer-text">
     <h2>Assessed Property Value</h2>
-    <div class="offer-amount">$700,000</div>
+    <div class="offer-amount">$660,000</div>
     <div class="offer-sub">
-      Based on the evidence presented above &mdash; <span>$9,400&ndash;$21,050</span> in documented repairs, <span>$6,616</span> in first-year operating losses, <span>$1,000&ndash;$3,000</span> in tenant damage remediation, three uninspected areas of unknown risk, and a stabilized net cash flow of <span>-$118/mo</span> &mdash; this is what the property is worth in its current condition.
+      Based on <span>4 comparable 3-family sales</span> averaging $226/sqft, adjusted upward to $240&ndash;$250/sqft for 21 Tatman&rsquo;s <span>renovated interiors, new roof, mini-split AC, and newer water heaters</span>. Reduced by <span>$9,400&ndash;$18,050</span> in remaining deferred repairs and three uninspected areas of unknown risk. This is the comp-supported market value.
     </div>
   </div>
 </div>
 
 <div class="footnote">
   Inspection performed by L &amp; M Home Inspection Service, LLC &mdash; Richard Langevin, Inspector &middot; Property: 21 Tatman Street, Worcester, MA 01607<br>
-  Mortgage rate: 6.32% (30-yr fixed, March 2026) &middot; Worcester residential tax: $13.28/$1,000 (FY2026) &middot; This document is for negotiation purposes and does not constitute financial advice.
+  Comparable sales sourced from MLS/MLSPIN, Coldwell Banker, Redfin, Homes.com (data as of March 2026) &middot; This document is for negotiation purposes and does not constitute financial advice.
 </div>
 
 <div style="text-align:center; margin: 2.5rem auto; padding-bottom: 2.5rem;">
