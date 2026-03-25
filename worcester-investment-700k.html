@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worcester MA Investment Property Analysis — $700,000</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #0f1117; color: #e8eaf6; min-height: 100vh; padding: 24px; }
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .header p { color: #8892b0; font-size: 13px; margin-top: 6px; }
+  .rate-badge { display: inline-block; background: #ff4d4d22; border: 1px solid #ff4d4d55; color: #ff7070; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-top: 8px; }
+
+  /* COMPARE BANNER */
+  .compare-banner {
+    background: linear-gradient(135deg, #1a2418, #1e2a1c);
+    border: 1px solid #2a4030;
+    border-radius: 14px;
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .compare-banner .cb-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; flex-shrink: 0; }
+  .compare-item { flex: 1; min-width: 130px; }
+  .compare-item .ci-title { font-size: 11px; color: #64748b; margin-bottom: 2px; }
+  .compare-item .ci-val { font-size: 17px; font-weight: 700; }
+  .compare-item .ci-diff { font-size: 11px; margin-top: 2px; }
+  .ci-better { color: #4ade80; }
+  .ci-worse  { color: #f87171; }
+  .ci-same   { color: #94a3b8; }
+  .divider-v { width: 1px; background: #1e3028; align-self: stretch; }
+
+  /* VERDICT */
+  .verdict-card { background: linear-gradient(135deg, #1a1f2e, #1e2438); border: 1px solid #2a3050; border-radius: 20px; padding: 28px 32px; margin-bottom: 24px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .verdict-icon { font-size: 52px; flex-shrink: 0; }
+  .verdict-text h2 { font-size: 15px; color: #8892b0; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .verdict-amount { font-size: 48px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+  .verdict-amount.negative { color: #ff6b6b; }
+  .verdict-amount.positive { color: #4ade80; }
+  .verdict-sub { font-size: 13px; color: #8892b0; margin-top: 6px; }
+  .verdict-sub span { color: #a5b4fc; font-weight: 600; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: #161b28; border: 1px solid #1e2740; border-radius: 14px; padding: 18px 20px; }
+  .stat-card .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-bottom: 6px; }
+  .stat-card .value { font-size: 22px; font-weight: 700; color: #e2e8f0; }
+  .stat-card .sub { font-size: 11px; color: #475569; margin-top: 3px; }
+  .stat-card .delta { font-size: 11px; margin-top: 4px; font-weight: 600; }
+  .stat-card.income .value { color: #4ade80; }
+  .stat-card.expense .value { color: #f87171; }
+  .stat-card.neutral .value { color: #818cf8; }
+  .stat-card.better .value { color: #4ade80; }
+
+  /* BREAKDOWN */
+  .section-title { font-size: 13px; font-weight: 700; color: #8892b0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .breakdown-section { background: #161b28; border: 1px solid #1e2740; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+  .bar-item { margin-bottom: 16px; }
+  .bar-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .bar-name { font-size: 13px; color: #cbd5e1; font-weight: 500; }
+  .bar-amount { font-size: 13px; font-weight: 700; }
+  .bar-track { background: #1e2740; border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  hr.divider { border: none; border-top: 1px solid #1e2740; margin: 20px 0; }
+
+  /* SCENARIOS */
+  .scenario-section { background: #161b28; border: 1px solid #1e2740; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+  .toggle-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .toggle-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid #2a3050; background: #0f1117; color: #8892b0; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .toggle-btn.active { background: #3730a3; border-color: #6366f1; color: #e0e7ff; }
+  .scenario-result { display: flex; gap: 12px; flex-wrap: wrap; }
+  .scen-stat { background: #0f1117; border: 1px solid #1e2740; border-radius: 10px; padding: 14px 18px; flex: 1; min-width: 130px; }
+  .scen-stat .sl { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 4px; }
+  .scen-stat .sv { font-size: 20px; font-weight: 700; }
+  .scen-stat .sv.neg { color: #f87171; }
+  .scen-stat .sv.pos { color: #4ade80; }
+
+  .footnote { font-size: 11px; color: #374151; text-align: center; margin-top: 16px; line-height: 1.6; }
+
+  /* BUDGET MODE TOGGLE */
+  .budget-toggle-bar { display: flex; align-items: center; gap: 14px; background: #161b28; border: 1px solid #2a3050; border-radius: 14px; padding: 14px 20px; margin-bottom: 24px; flex-wrap: wrap; }
+  .budget-toggle-bar .bt-label { font-size: 13px; font-weight: 700; color: #e2e8f0; flex-shrink: 0; }
+  .budget-toggle-bar .bt-desc { font-size: 12px; color: #64748b; flex: 1; min-width: 160px; }
+  .switch-wrap { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .switch-label { font-size: 12px; font-weight: 600; color: #64748b; }
+  .switch-label.active-label { color: #fbbf24; }
+  .toggle-switch { position: relative; width: 48px; height: 26px; flex-shrink: 0; }
+  .toggle-switch input { display: none; }
+  .toggle-switch .track { position: absolute; inset: 0; background: #1e2740; border-radius: 13px; cursor: pointer; transition: background 0.25s; border: 1px solid #2a3050; }
+  .toggle-switch input:checked + .track { background: #92400e; border-color: #d97706; }
+  .toggle-switch .track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: #475569; border-radius: 50%; transition: transform 0.25s, background 0.25s; }
+  .toggle-switch input:checked + .track::after { transform: translateX(22px); background: #fbbf24; }
+  .non-mandatory { transition: opacity 0.3s; }
+  .non-mandatory.dimmed { opacity: 0.35; }
+  .non-mandatory .bar-name::after { content: ' ✂️'; font-size: 10px; opacity: 0; transition: opacity 0.3s; }
+  .non-mandatory.dimmed .bar-name::after { opacity: 1; }
+  .budget-savings-pill { display: none; background: #fbbf2422; border: 1px solid #fbbf2455; color: #fbbf24; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 8px; }
+
+  /* PRICE INPUT */
+  .price-control-bar { display: flex; align-items: center; gap: 16px; background: #12172a; border: 1px solid #3730a3; border-radius: 14px; padding: 16px 24px; margin-bottom: 24px; flex-wrap: wrap; }
+  .price-control-bar .pc-label { font-size: 13px; font-weight: 700; color: #e2e8f0; flex-shrink: 0; }
+  .price-input-wrap { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 220px; }
+  .price-input-wrap span { font-size: 18px; font-weight: 700; color: #818cf8; }
+  .price-input-wrap input[type=range] { flex: 1; accent-color: #6366f1; cursor: pointer; height: 4px; }
+  .price-display { font-size: 22px; font-weight: 800; color: #a5b4fc; min-width: 110px; text-align: right; }
+  .price-derived { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 4px; width: 100%; }
+  .price-derived-item { font-size: 11px; color: #64748b; }
+  .price-derived-item span { color: #94a3b8; font-weight: 600; }
+    .verdict-card { flex-direction: column; text-align: center; }
+    .verdict-amount { font-size: 36px; }
+    .compare-banner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏠 Worcester, MA — 3-Family Investment Analysis</h1>
+  <p>01607 · <strong style="color:#a5b4fc">$700,000 Purchase</strong> · 20% Down · March 2026 Rates · <strong style="color:#4ade80">$5,950/mo Rent</strong> ($2,100 + $2,050 + $1,800)</p>
+  <div class="rate-badge">⚠️ 30-yr Rate: 6.32% as of Mar 20, 2026</div>
+</div>
+
+<!-- COMPARISON BANNER -->
+<div class="compare-banner">
+  <div class="cb-label">vs. $715k</div>
+  <div class="compare-item">
+    <div class="ci-title">Down Payment</div>
+    <div class="ci-val" style="color:#e2e8f0" id="banner-down">$140,000</div>
+    <div class="ci-diff ci-better">20% of purchase price</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">Monthly Mortgage</div>
+    <div class="ci-val" style="color:#e2e8f0" id="banner-mort">$3,492</div>
+    <div class="ci-diff ci-better">30-yr @ 6.32%</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">Monthly Tax</div>
+    <div class="ci-val" style="color:#e2e8f0" id="banner-tax">$775</div>
+    <div class="ci-diff ci-better">$13.28/$1,000 (FY2026)</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">Net Cash Flow</div>
+    <div class="ci-val" id="banner-net" style="color:#4ade80">+$64</div>
+    <div class="ci-diff ci-better">Full budget, base case</div>
+  </div>
+</div>
+
+<!-- PRICE CONTROL -->
+<div class="price-control-bar">
+  <div class="pc-label">🏷️ Purchase Price</div>
+  <div style="flex:1;min-width:220px">
+    <div class="price-input-wrap">
+      <span>$</span>
+      <input type="range" id="price-slider" min="500000" max="1000000" step="5000" value="700000">
+      <div class="price-display" id="price-display">$700,000</div>
+    </div>
+    <div class="price-derived">
+      <div class="price-derived-item">Down (20%): <span id="derived-down">$140,000</span></div>
+      <div class="price-derived-item">Loan: <span id="derived-loan">$560,000</span></div>
+      <div class="price-derived-item">Mortgage/mo: <span id="derived-mort">$3,492</span></div>
+      <div class="price-derived-item">Tax/mo: <span id="derived-tax">$775</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGET MODE TOGGLE -->
+<div class="budget-toggle-bar">
+  <div class="bt-label">💡 Budget View</div>
+  <div class="bt-desc">Toggle to minimize non-mandatory expenses (maintenance, reserves, water, misc) and see your <em>bare-minimum</em> cash flow.</div>
+  <div class="switch-wrap">
+    <span class="switch-label" id="lbl-full">Full Budget</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="budget-mode-toggle">
+      <div class="track"></div>
+    </label>
+    <span class="switch-label" id="lbl-min">Minimized</span>
+  </div>
+</div>
+
+<!-- VERDICT -->
+<div class="verdict-card">
+  <div class="verdict-icon">📉</div>
+  <div class="verdict-text">
+    <h2>Monthly Net Cash Flow</h2>
+    <div class="verdict-amount positive">+$64</div>
+    <div class="verdict-sub">
+      You collect <span>$6,000/mo</span> in rent — all-in costs are <span>$5,936/mo</span>
+    </div>
+  </div>
+</div>
+
+<!-- KEY STATS -->
+<div class="stats-grid">
+  <div class="stat-card income">
+    <div class="label">Monthly Rent Income</div>
+    <div class="value">$5,950</div>
+    <div class="sub">$2,100 + $2,050 + $1,800 · 3 units</div>
+  </div>
+  <div class="stat-card expense">
+    <div class="label">Mortgage Payment</div>
+    <div class="value" id="stat-mortgage">$3,492</div>
+    <div class="sub" id="stat-mortgage-sub">$560,000 loan @ 6.32%, 30yr</div>
+    <div class="delta ci-better">▼ updates with price</div>
+  </div>
+  <div class="stat-card neutral">
+    <div class="label">Down Payment</div>
+    <div class="value" id="stat-down">$140,000</div>
+    <div class="sub">20% of purchase price</div>
+  </div>
+  <div class="stat-card expense">
+    <div class="label">Annual Property Tax</div>
+    <div class="value" id="stat-tax-annual">$9,296</div>
+    <div class="sub" id="stat-tax-sub">$775/mo · $13.28/$1,000</div>
+  </div>
+  <div class="stat-card expense">
+    <div class="label">Total Monthly Expenses</div>
+    <div class="value" id="stat-total-exp">$5,936</div>
+    <div class="sub">All-in costs</div>
+  </div>
+  <div class="stat-card expense">
+    <div class="label">Cash-on-Cash Return</div>
+    <div class="value" id="stat-coc">+0.5%</div>
+    <div class="sub">Annual net ÷ down payment</div>
+  </div>
+</div>
+
+<!-- EXPENSE BREAKDOWN -->
+<div class="breakdown-section">
+  <div class="section-title">Monthly Expense Breakdown</div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">🏦 Mortgage (P&I)</span>
+      <span class="bar-amount" style="color:#818cf8"><span id="bar-mortgage">$3,474</span> <span id="pct-mortgage" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-mortgage" style="width:100%;background:linear-gradient(90deg,#6366f1,#818cf8)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">🏛️ Property Tax</span>
+      <span class="bar-amount" style="color:#f87171"><span id="bar-tax">$775</span> <span id="pct-tax" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-tax" style="width:22.2%;background:linear-gradient(90deg,#dc2626,#f87171)"></div></div>
+  </div>
+
+  <div class="bar-item">
+    <div class="bar-row">
+      <span class="bar-name">🛡️ Landlord Insurance</span>
+      <span class="bar-amount" style="color:#fb923c"><span id="bar-insurance">$250</span> <span id="pct-insurance" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-insurance" style="width:7.2%;background:linear-gradient(90deg,#c2410c,#fb923c)"></div></div>
+  </div>
+
+  <div class="bar-item non-mandatory" data-amount="583">
+    <div class="bar-row">
+      <span class="bar-name">🔧 Maintenance & Repairs</span>
+      <span class="bar-amount" style="color:#fbbf24"><span id="bar-maint">$583</span> <span id="pct-maint" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-maint" style="width:16.7%;background:linear-gradient(90deg,#d97706,#fbbf24)"></div></div>
+  </div>
+
+  <div class="bar-item non-mandatory" data-amount="200">
+    <div class="bar-row">
+      <span class="bar-name">🌊 Water / Sewer (landlord paid)</span>
+      <span class="bar-amount" style="color:#38bdf8"><span id="bar-water">$200</span> <span id="pct-water" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-water" style="width:5.7%;background:linear-gradient(90deg,#0369a1,#38bdf8)"></div></div>
+  </div>
+
+  <div class="bar-item non-mandatory" data-amount="446">
+    <div class="bar-row">
+      <span class="bar-name">🏠 Vacancy Reserve (7.5%)</span>
+      <span class="bar-amount" style="color:#a78bfa"><span id="bar-vacancy">$446</span> <span id="pct-vacancy" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-vacancy" style="width:8.6%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
+  </div>
+
+  <div class="bar-item non-mandatory" data-amount="233">
+    <div class="bar-row">
+      <span class="bar-name">💼 CapEx Reserve</span>
+      <span class="bar-amount" style="color:#94a3b8"><span id="bar-capex">$233</span> <span id="pct-capex" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-capex" style="width:6.7%;background:linear-gradient(90deg,#475569,#94a3b8)"></div></div>
+  </div>
+
+  <div class="bar-item non-mandatory" data-amount="103">
+    <div class="bar-row">
+      <span class="bar-name">📋 Misc (Trash, CPA, etc)</span>
+      <span class="bar-amount" style="color:#94a3b8"><span id="bar-misc">$103</span> <span id="pct-misc" style="font-size:10px;color:#64748b"></span></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="fill-misc" style="width:3%;background:#64748b"></div></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="bar-row" style="margin-top:4px">
+    <span class="bar-name" style="font-weight:700;color:#fff;font-size:14px">Total Monthly Expenses <span class="budget-savings-pill" id="savings-pill-700"></span></span>
+    <span class="bar-amount" style="color:#f87171;font-size:16px;font-weight:800" id="total-exp-700">$5,936</span>
+  </div>
+</div>
+
+<!-- SCENARIOS -->
+<div class="scenario-section">
+  <div class="section-title">📊 Scenario Analysis</div>
+  <div class="toggle-row">
+    <button class="toggle-btn active" data-key="base">Base Case</button>
+    <button class="toggle-btn" data-key="fullOcc">100% Occupied</button>
+    <button class="toggle-btn" data-key="rent7k">$7,000/mo Rent</button>
+    <button class="toggle-btn" data-key="rate15">15-yr Mortgage</button>
+    <button class="toggle-btn" data-key="managed">With Mgmt (8%)</button>
+  </div>
+  <div class="scenario-result" id="scenario-result"></div>
+</div>
+
+<!-- BREAK-EVEN + UPSIDE -->
+<div class="breakdown-section">
+  <div class="section-title">🎯 Break-Even & Key Metrics</div>
+  <p style="font-size:14px;color:#94a3b8;margin-bottom:12px;">
+    With all-in expenses of <strong style="color:#e2e8f0" id="be-total-exp">—</strong>, your break-even rent is:
+  </p>
+  <div style="font-size:36px;font-weight:800;color:#4ade80;" id="be-rent">— / month</div>
+  <p style="font-size:13px;color:#64748b;margin-top:8px;" id="be-desc"></p>
+
+  <hr class="divider">
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:4px">
+    <div style="background:#0f1117;border:1px solid #1e2740;border-radius:10px;padding:14px">
+      <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.7px">Equity Buildup / yr</div>
+      <div style="font-size:18px;font-weight:700;color:#818cf8;margin-top:4px" id="upside-equity">~$8,200</div>
+      <div style="font-size:11px;color:#374151" id="upside-equity-sub">Principal paydown on $560k</div>
+    </div>
+    <div style="background:#0f1117;border:1px solid #1e2740;border-radius:10px;padding:14px">
+      <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.7px">Appreciation (3%/yr)</div>
+      <div style="font-size:18px;font-weight:700;color:#4ade80;margin-top:4px" id="upside-appr">~$21,000</div>
+      <div style="font-size:11px;color:#374151">On purchase price</div>
+    </div>
+    <div style="background:#0f1117;border:1px solid #1e2740;border-radius:10px;padding:14px">
+      <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.7px">Rate Drop (to 5.5%)</div>
+      <div style="font-size:18px;font-weight:700;color:#38bdf8;margin-top:4px" id="upside-refi">+$385/mo</div>
+      <div style="font-size:11px;color:#374151">If you refinance later</div>
+    </div>
+    <div style="background:#0f1117;border:1px solid #1e2740;border-radius:10px;padding:14px">
+      <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.7px">Savings vs $715k Deal</div>
+      <div style="font-size:18px;font-weight:700;color:#4ade80;margin-top:4px" id="upside-vs715-annual">—</div>
+      <div style="font-size:11px;color:#374151" id="upside-vs715-down">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="footnote">
+  Mortgage rate: 6.32% (30-yr fixed, March 20, 2026) · Worcester residential tax: $13.28/$1,000 (FY2026) · Maintenance at 1%/yr of value · CapEx at 0.4%/yr · Vacancy 7.5% · Rent: $5,950/mo ($2,100 + $2,050 + $1,800) · Not financial advice — consult a licensed advisor.
+</div>
+
+<script>
+  // ── Fixed inputs ────────────────────────────────────────────────────────────
+  const INCOME       = 5950;              // $2,100 + $2,050 + $1,800
+  const RATE_30      = 6.32 / 100 / 12;  // 30-yr monthly rate
+  const RATE_15      = 5.67 / 100 / 12;  // 15-yr monthly rate
+  const TAX_RATE     = 13.28 / 1000;     // Worcester FY2026 residential
+  const DOWN_PCT     = 0.20;
+  const INSURANCE    = 250;              // landlord insurance (fixed)
+  const WATER        = 200;              // water/sewer (fixed)
+  const VACANCY_PCT  = 0.075;           // 7.5% of rent
+  const MAINT_PCT    = 0.01;            // 1% of price / yr → /12
+  const CAPEX_PCT    = 0.004;           // 0.4% of price / yr → /12
+  const MISC         = 103;             // CPA surcharge + trash etc (fixed, no separate CPA calc)
+  const COMPARE_PRICE = 715000;         // comparison baseline
+
+  // ── State ───────────────────────────────────────────────────────────────────
+  let purchasePrice = 700000;
+  let budgetMin     = false;
+  let activeKey     = 'base';
+
+  // ── Derived calculations ────────────────────────────────────────────────────
+  function calcMortgage(loan, rate, years) {
+    const n = years * 12;
+    return loan * (rate * Math.pow(1 + rate, n)) / (Math.pow(1 + rate, n) - 1);
+  }
+
+  function derive(price) {
+    const down      = price * DOWN_PCT;
+    const loan      = price - down;
+    const mort30    = calcMortgage(loan, RATE_30, 30);
+    const mort15    = calcMortgage(loan, RATE_15, 15);
+    const tax       = (price * TAX_RATE) / 12;
+    const maint     = (price * MAINT_PCT) / 12;
+    const capex     = (price * CAPEX_PCT) / 12;
+    const vacancy   = INCOME * VACANCY_PCT;
+
+    const mandOther = tax + INSURANCE;
+    const nonMand   = maint + WATER + vacancy + capex + MISC;
+    const fullOther = mandOther + nonMand;
+
+    return { down, loan, mort30, mort15, tax, maint, capex, vacancy, mandOther, nonMand, fullOther };
+  }
+
+  function fmt(n)  { return '$' + Math.round(n).toLocaleString(); }
+  function fmtK(n) { return '$' + (Math.round(n / 100) / 10).toFixed(1) + 'k'; }
+  function pct(val, total) { return (val / total * 100).toFixed(1) + '%'; }
+
+  // ── Render derived header stats ─────────────────────────────────────────────
+  function updateDerivedHeader(d) {
+    document.getElementById('derived-down').textContent = fmt(d.down);
+    document.getElementById('derived-loan').textContent = fmt(d.loan);
+    document.getElementById('derived-mort').textContent = fmt(d.mort30);
+    document.getElementById('derived-tax').textContent  = fmt(d.tax);
+    document.getElementById('price-display').textContent = fmt(purchasePrice);
+  }
+
+  // ── Render bar chart amounts, percentages, and widths ──────────────────────
+  function updateBars(d) {
+    const totalExp = d.mort30 + (budgetMin ? d.mandOther : d.fullOther);
+    const items = [
+      { id: 'mortgage',  val: d.mort30 },
+      { id: 'tax',       val: d.tax },
+      { id: 'insurance', val: INSURANCE },
+      { id: 'maint',     val: d.maint },
+      { id: 'water',     val: WATER },
+      { id: 'vacancy',   val: d.vacancy },
+      { id: 'capex',     val: d.capex },
+      { id: 'misc',      val: MISC },
+    ];
+    const maxVal = d.mort30; // mortgage is always the largest bar
+    items.forEach(item => {
+      const barEl = document.getElementById('bar-' + item.id);
+      const pctEl = document.getElementById('pct-' + item.id);
+      const fillEl = document.getElementById('fill-' + item.id);
+      if (barEl) barEl.textContent = fmt(item.val);
+      if (pctEl) pctEl.textContent = pct(item.val, totalExp);
+      if (fillEl) fillEl.style.width = (item.val / maxVal * 100).toFixed(1) + '%';
+    });
+    document.getElementById('total-exp-700').textContent = fmt(totalExp);
+  }
+
+  // ── Render stat cards ────────────────────────────────────────────────────────
+  function updateStatCards(d) {
+    const totalExp = d.mort30 + (budgetMin ? d.mandOther : d.fullOther);
+    const net      = INCOME - totalExp;
+    const isPos    = net >= 0;
+    const coc      = ((net * 12) / d.down * 100).toFixed(1);
+
+    document.getElementById('stat-mortgage').textContent  = fmt(d.mort30);
+    document.getElementById('stat-mortgage-sub').textContent = `${fmt(d.loan)} loan @ 6.32%, 30yr`;
+    document.getElementById('stat-down').textContent      = fmt(d.down);
+    document.getElementById('stat-tax-annual').textContent = fmt(d.tax * 12);
+    document.getElementById('stat-tax-sub').textContent   = `${fmt(d.tax)}/mo · $13.28/$1,000`;
+    document.getElementById('stat-total-exp').textContent = fmt(totalExp);
+    document.getElementById('stat-coc').textContent       = (isPos ? '+' : '') + coc + '%';
+    document.getElementById('stat-coc').className         = 'value ' + (isPos ? '' : 'expense-val');
+
+    // equity buildup: sum actual principal from amortization schedule (year 1)
+    let balance = d.loan;
+    let totalPrincipal = 0;
+    for (let i = 0; i < 12; i++) {
+      const interest = balance * RATE_30;
+      const principal = d.mort30 - interest;
+      totalPrincipal += principal;
+      balance -= principal;
+    }
+    document.getElementById('upside-equity').textContent  = '~' + fmtK(totalPrincipal);
+    document.getElementById('upside-equity-sub').textContent = `Principal paydown on ${fmtK(d.loan)}`;
+    document.getElementById('upside-appr').textContent    = '~' + fmtK(purchasePrice * 0.03);
+    document.getElementById('upside-refi').textContent    = '+' + fmt(d.mort30 - calcMortgage(d.loan, 5.5/100/12, 30)) + '/mo';
+
+    // savings vs $715k — dynamically computed
+    const d715 = derive(COMPARE_PRICE);
+    const totalExp715 = d715.mort30 + d715.fullOther;
+    const totalExpCur = d.mort30 + d.fullOther;
+    const annualSavings = (totalExp715 - totalExpCur) * 12;
+    const downSavings = d715.down - d.down;
+    document.getElementById('upside-vs715-annual').textContent = fmt(annualSavings) + '/yr';
+    document.getElementById('upside-vs715-down').textContent   = '+ ' + fmt(downSavings) + ' less down';
+  }
+
+  // ── Render break-even section ──────────────────────────────────────────────
+  function updateBreakEven(d) {
+    const totalExp = d.mort30 + (budgetMin ? d.mandOther : d.fullOther);
+    const net = INCOME - totalExp;
+    const isPos = net >= 0;
+    const avgPerUnit = Math.round(totalExp / 3);
+    document.getElementById('be-total-exp').textContent = fmt(totalExp) + '/mo';
+    document.getElementById('be-rent').textContent = fmt(totalExp) + ' / month';
+    document.getElementById('be-desc').innerHTML = isPos
+      ? `You're already <strong style="color:#4ade80">${fmt(net)}/mo above</strong> break-even — each floor averages ~${fmt(avgPerUnit)}/mo. Water/sewer ($200/mo) is factored in as a non-mandatory landlord-paid expense.`
+      : `You're <strong style="color:#f87171">${fmt(Math.abs(net))}/mo below</strong> break-even at this price. Each floor needs to average ~${fmt(avgPerUnit)}/mo to cover all costs.`;
+  }
+
+  // ── Render verdict ───────────────────────────────────────────────────────────
+  function updateVerdict(d) {
+    const totalExp = d.mort30 + (budgetMin ? d.mandOther : d.fullOther);
+    const net      = INCOME - totalExp;
+    const isPos    = net >= 0;
+    document.querySelector('.verdict-amount').textContent = (isPos ? '+' : '−') + fmt(Math.abs(net));
+    document.querySelector('.verdict-amount').className   = 'verdict-amount ' + (isPos ? 'positive' : 'negative');
+    document.querySelector('.verdict-icon').textContent   = isPos ? '📈' : '📉';
+    document.querySelector('.verdict-sub').innerHTML      = budgetMin
+      ? `Only mandatory costs (mortgage + tax + insurance): <span>${fmt(totalExp)}/mo</span>`
+      : `You collect <span>${fmt(INCOME)}/mo</span> in rent — all-in costs are <span>${fmt(totalExp)}/mo</span>`;
+  }
+
+  // ── Render compare banner ────────────────────────────────────────────────────
+  function updateBanner(d) {
+    const totalExp = d.mort30 + d.fullOther;
+    const net      = INCOME - totalExp;
+    const isPos    = net >= 0;
+    document.getElementById('banner-down').textContent  = fmt(d.down);
+    document.getElementById('banner-mort').textContent  = fmt(d.mort30);
+    document.getElementById('banner-tax').textContent   = fmt(d.tax);
+    document.getElementById('banner-net').textContent   = (isPos ? '+' : '−') + fmt(Math.abs(net));
+    document.getElementById('banner-net').style.color   = isPos ? '#4ade80' : '#f87171';
+  }
+
+  // ── Render scenario ──────────────────────────────────────────────────────────
+  function renderScenario(key) {
+    activeKey = key;
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
+    const d = derive(purchasePrice);
+    const baseOther = budgetMin ? d.mandOther : d.fullOther;
+
+    const scenarioDefs = {
+      base: {
+        income: INCOME, mortgage: d.mort30, otherAdj: 0,
+        note: `<strong>Base Case</strong> — Your realistic starting point. Assumes a ${fmt(d.loan)} loan at the current 30-yr fixed rate of 6.32%, all 3 units rented at ${fmt(INCOME)}/mo total ($2,100 + $2,050 + $1,800), and a 7.5% vacancy reserve set aside each month. All standard expenses included.`
+      },
+      fullOcc: {
+        income: INCOME, mortgage: d.mort30, otherAdj: -d.vacancy,
+        note: `<strong>100% Occupied</strong> — Removes the ${fmt(d.vacancy)}/mo vacancy reserve, assuming your units stay fully rented year-round with no turnover gaps. Optimistic but possible if you're a hands-on landlord in a tight rental market. Worcester vacancy rates have historically been low, so this isn't unrealistic long-term.`
+      },
+      rent7k: {
+        income: 7000, mortgage: d.mort30, otherAdj: 0,
+        note: `<strong>$7,000/mo Rent</strong> — Models what happens if you raise rents to ~$2,333 per floor. All expenses stay the same. This could reflect market-rate increases over time, or negotiating higher rents upfront. Worcester rents have been trending up — this may be achievable within 1–2 years.`
+      },
+      rate15: {
+        income: INCOME, mortgage: d.mort15, otherAdj: 0,
+        note: `<strong>15-Year Mortgage @ 5.67%</strong> — Swaps the 30-yr loan for a 15-yr term at today's lower 15-yr rate (5.67%). Monthly payments jump to ${fmt(d.mort15)} (+${fmt(d.mort15 - d.mort30)}/mo), which hurts short-term cash flow significantly. The tradeoff: you build equity twice as fast and save significantly in interest over the life of the loan.`
+      },
+      managed: {
+        income: INCOME, mortgage: d.mort30, otherAdj: INCOME * 0.08,
+        note: `<strong>With Property Manager (8%)</strong> — Adds a professional property management fee of 8% of gross rent (${fmt(INCOME * 0.08)}/mo). The manager handles tenant screening, maintenance calls, rent collection, and lease enforcement. Eats into margin but reduces your time and stress significantly.`
+      },
+    };
+
+    const s = scenarioDefs[key];
+    const otherExp = baseOther + s.otherAdj;
+    const net    = s.income - s.mortgage - otherExp;
+    const isPos  = net >= 0;
+    const annual = net * 12;
+    const coc    = (annual / d.down * 100).toFixed(1);
+    const be     = s.mortgage + otherExp;
+
+    document.getElementById('scenario-result').innerHTML = `
+      <div class="scen-stat"><div class="sl">Monthly Net</div><div class="sv ${isPos?'pos':'neg'}">${isPos?'+':''}${fmt(net)}</div></div>
+      <div class="scen-stat"><div class="sl">Annual Net</div><div class="sv ${isPos?'pos':'neg'}">${isPos?'+':''}${fmt(annual)}</div></div>
+      <div class="scen-stat"><div class="sl">Cash-on-Cash</div><div class="sv ${isPos?'pos':'neg'}">${coc}%</div></div>
+      <div class="scen-stat"><div class="sl">Break-Even Rent</div><div class="sv" style="color:#e2e8f0">${fmt(be)}</div></div>
+      <div class="scen-stat" style="flex-basis:100%;background:transparent;border:1px dashed #1e2740">
+        <div class="sl">📋 Scenario Notes</div>
+        <div style="font-size:12.5px;color:#94a3b8;margin-top:6px;line-height:1.7">${s.note}${budgetMin ? '<br><br><span style="color:#fbbf24">⚠️ Budget Minimized — maintenance, water/sewer, vacancy, CapEx, and misc expenses are stripped. These costs are real and will catch up over time.</span>' : ''}</div>
+      </div>`;
+  }
+
+  // ── Master refresh ───────────────────────────────────────────────────────────
+  function refresh() {
+    const d = derive(purchasePrice);
+    updateDerivedHeader(d);
+    updateBars(d);
+    updateStatCards(d);
+    updateBreakEven(d);
+    updateVerdict(d);
+    updateBanner(d);
+    renderScenario(activeKey);
+
+    // budget pill
+    const pill = document.getElementById('savings-pill-700');
+    pill.style.display = budgetMin ? 'inline-block' : 'none';
+    pill.textContent   = '✂️ −' + fmt(d.nonMand) + ' stripped';
+  }
+
+  // ── Budget toggle ────────────────────────────────────────────────────────────
+  function applyBudgetMode(minimized) {
+    budgetMin = minimized;
+    document.querySelectorAll('.non-mandatory').forEach(el => el.classList.toggle('dimmed', minimized));
+    document.getElementById('lbl-full').classList.toggle('active-label', !minimized);
+    document.getElementById('lbl-min').classList.toggle('active-label',  minimized);
+    refresh();
+  }
+
+  // ── Price slider ─────────────────────────────────────────────────────────────
+  document.getElementById('price-slider').addEventListener('input', e => {
+    purchasePrice = parseInt(e.target.value);
+    refresh();
+  });
+
+  document.getElementById('budget-mode-toggle').addEventListener('change', e => applyBudgetMode(e.target.checked));
+  document.querySelectorAll('.toggle-btn').forEach(btn => btn.addEventListener('click', () => renderScenario(btn.dataset.key)));
+
+  refresh();
+</script>
+</body>
+</html>
