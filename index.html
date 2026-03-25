@@ -419,7 +419,7 @@
         <div class="comp-addr">5 Tatman St <span class="comp-tag tag-same-st">Same Street</span></div>
         <div class="comp-sub">Worcester, MA 01607 &bull; Sold Nov 14, 2025</div>
         <div class="comp-price">$650,000</div>
-        <div class="comp-ppsf">$214/sqft &mdash; <span style="color:#ef4444">19% less per sqft than 21 Tatman at $700k</span></div>
+        <div class="comp-ppsf">$214/sqft &mdash; <span style="color:#ef4444">19% cheaper per sqft than 21 Tatman at $700k ($265/sqft)</span></div>
         <div class="comp-specs">
           <span class="comp-spec">7 Bed</span>
           <span class="comp-spec">3 Bath</span>
@@ -438,7 +438,7 @@
         <div class="comp-addr">62 Whipple St <span class="comp-tag tag-nearby">0.3 mi Away</span></div>
         <div class="comp-sub">Worcester, MA 01607 &bull; Sold Nov 20, 2024</div>
         <div class="comp-price">$670,000</div>
-        <div class="comp-ppsf">$231/sqft &mdash; <span style="color:#ef4444">12% less per sqft than 21 Tatman at $700k</span></div>
+        <div class="comp-ppsf">$231/sqft &mdash; <span style="color:#ef4444">12% cheaper per sqft than 21 Tatman at $700k ($265/sqft)</span></div>
         <div class="comp-specs">
           <span class="comp-spec">6 Bed</span>
           <span class="comp-spec">3 Bath</span>
@@ -457,7 +457,7 @@
         <div class="comp-addr">49 Granite St <span class="comp-tag tag-renovated">Renovated</span></div>
         <div class="comp-sub">Worcester, MA 01604 &bull; Sold Mar 10, 2025</div>
         <div class="comp-price">$782,895</div>
-        <div class="comp-ppsf">$209/sqft &mdash; <span style="color:#ef4444">21% less per sqft than 21 Tatman at $700k</span></div>
+        <div class="comp-ppsf">$209/sqft &mdash; <span style="color:#ef4444">21% cheaper per sqft than 21 Tatman at $700k ($265/sqft)</span></div>
         <div class="comp-specs">
           <span class="comp-spec">6 Bed</span>
           <span class="comp-spec">3 Bath</span>
@@ -475,7 +475,7 @@
         <div class="comp-addr">17 5th Ave <span class="comp-tag tag-nearby">Same Zip</span></div>
         <div class="comp-sub">Worcester, MA 01607 &bull; Sold Apr 11, 2025</div>
         <div class="comp-price">$840,000</div>
-        <div class="comp-ppsf">$248/sqft &mdash; <span style="color:#fbbf24">highest comp, still 6% below 21 Tatman at $700k</span></div>
+        <div class="comp-ppsf">$248/sqft &mdash; <span style="color:#fbbf24">highest comp, still 6% cheaper per sqft than 21 Tatman at $700k ($265/sqft)</span></div>
         <div class="comp-specs">
           <span class="comp-spec">7 Bed</span>
           <span class="comp-spec">4 Bath</span>
@@ -486,6 +486,87 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Neighborhood Proximity Map -->
+  <div style="font-size:11px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">&#128205; Neighborhood Proximity</div>
+  <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:280px;background:#0f1117;border:1px solid #1e2740;border-radius:12px;overflow:hidden">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <div id="comp-map" style="width:100%;height:300px;"></div>
+      <script>
+        (function(){
+          var props = [
+            {lat:42.2284412,lng:-71.7954532,color:'#a5b4fc',label:'21 Tatman St',info:'Subject \u2014 $700k asking \u2014 $265/sqft',radius:10},
+            {lat:42.2284597,lng:-71.7936639,color:'#4ade80',label:'5 Tatman St',info:'$650k sold \u2014 $214/sqft',radius:8},
+            {lat:42.2313010,lng:-71.7997230,color:'#38bdf8',label:'62 Whipple St',info:'$670k sold \u2014 $231/sqft',radius:8},
+            {lat:42.2467722,lng:-71.7883066,color:'#a78bfa',label:'49 Granite St',info:'$783k sold \u2014 $209/sqft',radius:8},
+            {lat:42.2417525,lng:-71.7999876,color:'#fbbf24',label:'17 5th Ave',info:'$840k sold \u2014 $248/sqft',radius:8}
+          ];
+          // Compute center from all markers
+          var avgLat = props.reduce(function(s,p){return s+p.lat},0)/props.length;
+          var avgLng = props.reduce(function(s,p){return s+p.lng},0)/props.length;
+          var map = L.map('comp-map',{scrollWheelZoom:false,attributionControl:false}).setView([avgLat,avgLng],14);
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+            maxZoom:19
+          }).addTo(map);
+          props.forEach(function(p){
+            L.circleMarker([p.lat,p.lng],{
+              radius:p.radius,color:p.color,fillColor:p.color,fillOpacity:0.85,weight:2
+            }).addTo(map).bindPopup('<strong style="color:'+p.color+'">'+p.label+'</strong><br>'+p.info);
+          });
+          // Draw dashed lines from subject to each comp
+          var subject = [42.2284412,-71.7954532];
+          props.slice(1).forEach(function(p){
+            L.polyline([subject,[p.lat,p.lng]],{color:p.color,weight:1,opacity:0.35,dashArray:'4 6'}).addTo(map);
+          });
+          // Fit map to show all markers with padding
+          var group = L.featureGroup(props.map(function(p){return L.marker([p.lat,p.lng])}));
+          map.fitBounds(group.getBounds().pad(0.15));
+          // Fix tile alignment on initial load
+          setTimeout(function(){ map.invalidateSize(); map.fitBounds(group.getBounds().pad(0.15)); }, 200);
+        })();
+      </script>
+    </div>
+    <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:8px;">
+      <div style="font-size:12px;color:#94a3b8;margin-bottom:4px;">All comps within 0.6 miles of 21 Tatman St:</div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #6366f155;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#a5b4fc;flex-shrink:0;box-shadow:0 0 6px #a5b4fc88;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#a5b4fc;">21 Tatman St &mdash; Subject Property</div>
+          <div style="font-size:11px;color:#64748b;">$700k asking &bull; $265/sqft &bull; 2,646 sqft</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #4ade8044;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#4ade80;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#4ade80;">5 Tatman St &mdash; Same Street</div>
+          <div style="font-size:11px;color:#64748b;">$650k sold &bull; $214/sqft &bull; 0.1 mi away</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #38bdf844;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#38bdf8;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#38bdf8;">62 Whipple St &mdash; 0.3 mi</div>
+          <div style="font-size:11px;color:#64748b;">$670k sold &bull; $231/sqft &bull; Nov 2024</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #a78bfa44;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#a78bfa;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#a78bfa;">49 Granite St &mdash; 0.5 mi</div>
+          <div style="font-size:11px;color:#64748b;">$783k sold &bull; $209/sqft &bull; 3,750 sqft</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #fbbf2444;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#fbbf24;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#fbbf24;">17 5th Ave &mdash; 0.6 mi</div>
+          <div style="font-size:11px;color:#64748b;">$840k sold &bull; $248/sqft &bull; Built 2021</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Comparison Table -->
@@ -588,6 +669,78 @@
     </div>
   </div>
 
+  <!-- $/Sqft Visual Comparison -->
+  <div style="font-size:11px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">$/Sqft Visual Comparison</div>
+  <div style="background:#0f1117;border:1px solid #1e2740;border-radius:12px;padding:20px 24px;margin-bottom:16px;position:relative;">
+    <!-- Red dashed line at $265 (21 Tatman asking) -->
+    <div style="position:absolute;top:12px;bottom:12px;left:calc(24px + (265/280) * (100% - 48px));border-left:2px dashed #ef4444;z-index:2;"></div>
+    <div style="position:absolute;top:4px;left:calc(24px + (265/280) * (100% - 48px));transform:translateX(-50%);font-size:10px;font-weight:700;color:#ef4444;white-space:nowrap;z-index:3;">21 Tatman asking: $265/sqft</div>
+
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:18px;">
+      <!-- 49 Granite - $209 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">49 Granite St</span>
+          <span style="font-size:12px;font-weight:700;color:#4ade80;">$209/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#4ade80,#22c55e);width:74.6%;"></div>
+        </div>
+      </div>
+      <!-- 5 Tatman - $214 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">5 Tatman St <span style="font-size:10px;color:#4ade80;font-weight:700;">SAME STREET</span></span>
+          <span style="font-size:12px;font-weight:700;color:#4ade80;">$214/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#4ade80,#22c55e);width:76.4%;"></div>
+        </div>
+      </div>
+      <!-- 62 Whipple - $231 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">62 Whipple St</span>
+          <span style="font-size:12px;font-weight:700;color:#4ade80;">$231/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#4ade80,#22c55e);width:82.5%;"></div>
+        </div>
+      </div>
+      <!-- 17 5th Ave - $248 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">17 5th Ave <span style="font-size:10px;color:#fbbf24;font-weight:700;">BUILT 2021</span></span>
+          <span style="font-size:12px;font-weight:700;color:#fbbf24;">$248/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#fbbf24,#f59e0b);width:88.6%;"></div>
+        </div>
+      </div>
+      <!-- 21 Tatman at $700k - $265 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#f87171;font-weight:700;">21 Tatman St @ $700k</span>
+          <span style="font-size:12px;font-weight:700;color:#ef4444;">$265/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#ef4444,#dc2626);width:94.6%;"></div>
+        </div>
+      </div>
+      <!-- Fair value range indicator -->
+      <div style="margin-top:4px;padding-top:10px;border-top:1px solid #1e2740;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#a5b4fc;font-weight:700;">21 Tatman Fair Value ($240&ndash;$250/sqft)</span>
+          <span style="font-size:12px;font-weight:700;color:#a5b4fc;">$635k&ndash;$660k</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#818cf8,#6366f1);width:85.7%;border-right:3px solid #a5b4fc;"></div>
+          <div style="position:absolute;top:0;left:85.7%;height:100%;width:calc(89.3% - 85.7%);background:linear-gradient(90deg,#6366f144,#6366f122);border-radius:0 4px 4px 0;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Verdict -->
   <div class="comp-verdict">
     <div class="cv-title">&#9888;&#65039; Comparable-Supported Value: $635,000 &ndash; $660,000</div>
@@ -602,6 +755,37 @@
   <p style="font-size:11px;color:#475569;margin-top:12px;text-align:center">
     Sources: MLS/MLSPIN records, Coldwell Banker, Redfin, Homes.com. Sales within 01607 zip code unless noted. Data as of March 2026.
   </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PRICE GAP CALLOUT                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg,#1a1418,#1e1a20);border:2px solid #dc262666;border-radius:20px;padding:32px 36px;margin-bottom:28px;text-align:center;">
+  <div style="font-size:11px;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Price Gap Analysis</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:4px;">Asking Price</div>
+      <div style="font-size:36px;font-weight:800;color:#ef4444;letter-spacing:-1px;">$700,000</div>
+      <div style="font-size:11px;color:#64748b;">$265/sqft</div>
+    </div>
+    <div style="font-size:28px;font-weight:700;color:#475569;">&minus;</div>
+    <div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:4px;">Comp-Supported Value</div>
+      <div style="font-size:36px;font-weight:800;color:#4ade80;letter-spacing:-1px;">$635k&ndash;$660k</div>
+      <div style="font-size:11px;color:#64748b;">$240&ndash;$250/sqft</div>
+    </div>
+    <div style="font-size:28px;font-weight:700;color:#475569;">=</div>
+    <div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:4px;">Overpayment at $700k</div>
+      <div style="font-size:36px;font-weight:800;color:#fbbf24;letter-spacing:-1px;">$40k&ndash;$65k</div>
+      <div style="font-size:11px;color:#fbbf24;font-weight:600;">Above market value</div>
+    </div>
+  </div>
+  <div style="margin-top:20px;padding-top:16px;border-top:1px solid #2a2030;">
+    <div style="font-size:13px;color:#94a3b8;line-height:1.6;max-width:680px;margin:0 auto;">
+      Every comparable 3-family sale in the area &mdash; including one on the <strong style="color:#e2e8f0;">same street</strong> that is <strong style="color:#e2e8f0;">390 sqft larger</strong> &mdash; sold for less per sqft than what $700k would price 21 Tatman at. Even the <strong style="color:#e2e8f0;">newest property (built 2021)</strong> sold for $248/sqft, still <strong style="color:#fbbf24;">$17/sqft cheaper</strong> than $700k.
+    </div>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
