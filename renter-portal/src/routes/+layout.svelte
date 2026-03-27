@@ -1,5 +1,6 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
+	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import '../app.css';
 
 	let { children, data } = $props();
@@ -23,7 +24,7 @@
 	<title>21 Tatman - Renter Portal</title>
 </svelte:head>
 
-<div class="min-h-screen bg-gray-50 flex flex-col">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col transition-colors">
 	{#if tenant}
 		<header class="bg-[var(--color-primary)] text-white shadow-lg">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,6 +51,7 @@
 					</nav>
 
 					<div class="hidden md:flex items-center gap-3">
+						<ThemeToggle />
 						<div class="text-right text-sm">
 							<div class="font-medium">{tenant.name}</div>
 							<div class="text-xs text-blue-200">Unit {tenant.unit}</div>
@@ -91,16 +93,19 @@
 							{link.label}
 						</a>
 					{/each}
-					<div class="border-t border-blue-400/30 mt-2 pt-2 px-3 py-2">
-						<div class="text-sm font-medium">{tenant.name} &middot; Unit {tenant.unit}</div>
-						<form method="POST" action="/logout" class="mt-2">
-							<button
-								type="submit"
-								class="text-sm text-blue-200 hover:text-white"
-							>
-								Sign Out
-							</button>
-						</form>
+					<div class="border-t border-blue-400/30 mt-2 pt-2 px-3 py-2 flex items-center justify-between">
+						<div>
+							<div class="text-sm font-medium">{tenant.name} &middot; Unit {tenant.unit}</div>
+							<form method="POST" action="/logout" class="mt-2">
+								<button
+									type="submit"
+									class="text-sm text-blue-200 hover:text-white"
+								>
+									Sign Out
+								</button>
+							</form>
+						</div>
+						<ThemeToggle />
 					</div>
 				</nav>
 			{/if}
@@ -111,7 +116,7 @@
 		{@render children()}
 	</main>
 
-	<footer class="bg-gray-800 text-gray-400 text-sm py-6">
+	<footer class="bg-gray-800 dark:bg-gray-950 text-gray-400 text-sm py-6">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 			<p>21 Tatman Street, Worcester, MA &middot; Renter Portal</p>
 			<p class="mt-1 text-gray-500">For emergencies, call 911. For urgent property issues, contact your landlord directly.</p>

@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import sql from '$lib/server/db';
+import { sendMaintenanceRequestEmail } from '$lib/server/email';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -33,6 +34,15 @@ export const actions = {
 			INSERT INTO maintenance_requests (tenant_id, unit, name, phone, category, urgency, description, preferred_time)
 			VALUES (${tenant.id}, ${tenant.unit}, ${tenant.name}, ${tenant.phone ?? ''}, ${category}, ${urgency}, ${description}, ${preferredTime})
 		`;
+
+		sendMaintenanceRequestEmail({
+			tenantName: tenant.name,
+			unit: tenant.unit,
+			category,
+			urgency,
+			description,
+			preferredTime
+		}).catch(() => {});
 
 		return { success: true };
 	}

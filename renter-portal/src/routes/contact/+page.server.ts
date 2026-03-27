@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import sql from '$lib/server/db';
+import { sendContactMessageEmail } from '$lib/server/email';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -21,6 +22,12 @@ export const actions = {
 			INSERT INTO messages (tenant_id, unit, name, message)
 			VALUES (${tenant.id}, ${tenant.unit}, ${tenant.name}, ${message})
 		`;
+
+		sendContactMessageEmail({
+			tenantName: tenant.name,
+			unit: tenant.unit,
+			message
+		}).catch(() => {});
 
 		return { success: true };
 	}

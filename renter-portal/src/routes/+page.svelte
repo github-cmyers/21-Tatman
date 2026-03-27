@@ -68,25 +68,25 @@
 		{#each quickLinks as link}
 			<a
 				href={link.href}
-				class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-[var(--color-accent)] transition-all group"
+				class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:border-[var(--color-accent)] transition-all group"
 			>
 				<div class="text-3xl mb-3">{link.icon}</div>
-				<h3 class="font-semibold text-gray-900 group-hover:text-[var(--color-primary)]">{link.title}</h3>
-				<p class="text-sm text-gray-500 mt-1">{link.description}</p>
+				<h3 class="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-[var(--color-primary)] dark:group-hover:text-[var(--color-accent)]">{link.title}</h3>
+				<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{link.description}</p>
 			</a>
 		{/each}
 	</div>
 
 	<!-- Announcements -->
 	<section>
-		<h2 class="text-xl font-bold text-gray-900 mb-4">Announcements</h2>
+		<h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Announcements</h2>
 		<div class="space-y-4">
 			{#each announcements as item}
-				<div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+				<div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
 					<div class="flex items-start justify-between gap-4">
 						<div>
-							<h3 class="font-semibold text-gray-900">{item.title}</h3>
-							<p class="text-gray-600 mt-1">{item.body}</p>
+							<h3 class="font-semibold text-gray-900 dark:text-gray-100">{item.title}</h3>
+							<p class="text-gray-600 dark:text-gray-300 mt-1">{item.body}</p>
 						</div>
 						<span class="text-xs text-gray-400 whitespace-nowrap">{item.date}</span>
 					</div>
