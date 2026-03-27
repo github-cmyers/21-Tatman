@@ -50,6 +50,34 @@ export async function sendMaintenanceRequestEmail(params: {
 	});
 }
 
+export async function sendRentalApplicationEmail(params: {
+	applicantName: string;
+	email: string;
+	phone: string;
+	desiredMoveIn?: string | null;
+}) {
+	const client = getResend();
+	if (!client) return;
+
+	await client.emails.send({
+		from: `21 Tatman Portal <${FROM_EMAIL}>`,
+		to: ADMIN_EMAIL,
+		subject: `New Rental Application - ${params.applicantName}`,
+		html: `
+			<h2>New Rental Application Received</h2>
+			<table style="border-collapse:collapse;width:100%;max-width:500px">
+				<tr><td style="padding:8px;font-weight:bold">Applicant</td><td style="padding:8px">${params.applicantName}</td></tr>
+				<tr><td style="padding:8px;font-weight:bold">Email</td><td style="padding:8px">${params.email}</td></tr>
+				<tr><td style="padding:8px;font-weight:bold">Phone</td><td style="padding:8px">${params.phone}</td></tr>
+				${params.desiredMoveIn ? `<tr><td style="padding:8px;font-weight:bold">Move-in Date</td><td style="padding:8px">${params.desiredMoveIn}</td></tr>` : ''}
+			</table>
+			<p>Log into the admin portal to review the full application.</p>
+			<hr>
+			<p style="color:#666;font-size:12px">Sent from 21 Tatman Renter Portal</p>
+		`
+	});
+}
+
 export async function sendContactMessageEmail(params: {
 	tenantName: string;
 	unit: string;

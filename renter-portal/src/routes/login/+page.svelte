@@ -75,5 +75,11 @@
 		<p class="text-center text-sm text-gray-400 mt-6">
 			Contact your property manager if you need login credentials.
 		</p>
+
+		<div class="text-center mt-4">
+			<a href="/apply" class="text-sm text-[var(--color-primary)] dark:text-blue-400 hover:underline">
+				Interested in renting? Apply here
+			</a>
+		</div>
 	</div>
 </div>
