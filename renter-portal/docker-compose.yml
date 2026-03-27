@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tatman-db
+    environment:
+      POSTGRES_DB: tatman_portal
+      POSTGRES_USER: tatman
+      POSTGRES_PASSWORD: tatman_dev_2026
+    ports:
+      - "5435:5432"
+    volumes:
+      - tatman_postgres_data:/var/lib/postgresql/data
+    networks:
+      - tatman-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tatman"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  tatman_postgres_data:
+
+networks:
+  tatman-network:
+    driver: bridge
