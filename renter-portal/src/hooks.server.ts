@@ -4,7 +4,7 @@ import { validateSession } from '$lib/server/auth';
 
 await migrate();
 
-const publicRoutes = ['/login', '/apply'];
+const publicRoutes = ['/login', '/apply', '/forgot-password', '/reset-password'];
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('session');

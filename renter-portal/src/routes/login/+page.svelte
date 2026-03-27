@@ -72,9 +72,14 @@
 			</button>
 		</form>
 
-		<p class="text-center text-sm text-gray-400 mt-6">
-			Contact your property manager if you need login credentials.
-		</p>
+		<div class="text-center mt-6 space-y-2">
+			<a href="/forgot-password" class="block text-sm text-[var(--color-primary)] dark:text-blue-400 hover:underline">
+				Forgot your password?
+			</a>
+			<p class="text-sm text-gray-400">
+				Contact your property manager if you need login credentials.
+			</p>
+		</div>
 
 		<div class="text-center mt-4">
 			<a href="/apply" class="text-sm text-[var(--color-primary)] dark:text-blue-400 hover:underline">

@@ -78,6 +78,61 @@ export async function sendRentalApplicationEmail(params: {
 	});
 }
 
+export async function sendPasswordResetEmail(params: {
+	tenantName: string;
+	email: string;
+	resetUrl: string;
+}) {
+	const client = getResend();
+	if (!client) return;
+
+	await client.emails.send({
+		from: `21 Tatman Portal <${FROM_EMAIL}>`,
+		to: params.email,
+		subject: 'Password Reset - 21 Tatman Portal',
+		html: `
+			<h2>Password Reset Request</h2>
+			<p>Hi ${params.tenantName},</p>
+			<p>We received a request to reset your password for the 21 Tatman Renter Portal.</p>
+			<p><a href="${params.resetUrl}" style="display:inline-block;background:#e8a838;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold">Reset Password</a></p>
+			<p>This link will expire in 1 hour. If you didn't request this, you can safely ignore this email.</p>
+			<hr>
+			<p style="color:#666;font-size:12px">Sent from 21 Tatman Renter Portal</p>
+		`
+	});
+}
+
+export async function sendMaintenanceStatusEmail(params: {
+	tenantEmail: string;
+	tenantName: string;
+	category: string;
+	status: string;
+	unit: string;
+}) {
+	const client = getResend();
+	if (!client) return;
+
+	const statusLabel: Record<string, string> = {
+		pending: 'Pending',
+		in_progress: 'In Progress',
+		completed: 'Completed'
+	};
+
+	await client.emails.send({
+		from: `21 Tatman Portal <${FROM_EMAIL}>`,
+		to: params.tenantEmail,
+		subject: `Maintenance Update - ${params.category} (${statusLabel[params.status] ?? params.status})`,
+		html: `
+			<h2>Maintenance Request Update</h2>
+			<p>Hi ${params.tenantName},</p>
+			<p>Your maintenance request for <strong>${params.category}</strong> in Unit ${params.unit} has been updated to: <strong>${statusLabel[params.status] ?? params.status}</strong>.</p>
+			<p>Log into the portal to view details or add comments.</p>
+			<hr>
+			<p style="color:#666;font-size:12px">Sent from 21 Tatman Renter Portal</p>
+		`
+	});
+}
+
 export async function sendContactMessageEmail(params: {
 	tenantName: string;
 	unit: string;

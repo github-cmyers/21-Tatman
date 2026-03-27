@@ -109,6 +109,29 @@ export async function migrate() {
 		)
 	`;
 
+	await sql`
+		CREATE TABLE IF NOT EXISTS request_comments (
+			id SERIAL PRIMARY KEY,
+			request_id INTEGER NOT NULL REFERENCES maintenance_requests(id) ON DELETE CASCADE,
+			tenant_id INTEGER REFERENCES tenants(id) ON DELETE SET NULL,
+			author_name VARCHAR(255) NOT NULL,
+			is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+			comment TEXT NOT NULL,
+			created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+		)
+	`;
+
+	await sql`
+		CREATE TABLE IF NOT EXISTS password_reset_tokens (
+			id SERIAL PRIMARY KEY,
+			tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+			token VARCHAR(64) UNIQUE NOT NULL,
+			expires_at TIMESTAMPTZ NOT NULL,
+			used BOOLEAN NOT NULL DEFAULT FALSE,
+			created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+		)
+	`;
+
 	// Backfill columns for tables created before auth was added
 	await sql`ALTER TABLE maintenance_requests ADD COLUMN IF NOT EXISTS tenant_id INTEGER REFERENCES tenants(id)`;
 	await sql`ALTER TABLE messages ADD COLUMN IF NOT EXISTS tenant_id INTEGER REFERENCES tenants(id)`;

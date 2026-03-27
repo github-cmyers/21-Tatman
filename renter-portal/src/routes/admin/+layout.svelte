@@ -5,7 +5,8 @@
 		{ href: '/admin', label: 'Overview' },
 		{ href: '/admin/requests', label: 'Requests' },
 		{ href: '/admin/messages', label: 'Messages' },
-		{ href: '/admin/tenants', label: 'Tenants' }
+		{ href: '/admin/tenants', label: 'Tenants' },
+		{ href: '/admin/applications', label: 'Applications' }
 	];
 </script>
 

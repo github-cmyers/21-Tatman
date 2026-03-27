@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import sql from '$lib/server/db';
+import { sendMaintenanceStatusEmail } from '$lib/server/email';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url }) => {
@@ -16,7 +17,22 @@ export const load: PageServerLoad = async ({ url }) => {
 		`;
 	}
 
-	return { requests, statusFilter };
+	// Load comments for all requests
+	const requestIds = requests.map((r) => r.id);
+	let comments: Record<number, any[]> = {};
+	if (requestIds.length > 0) {
+		const allComments = await sql`
+			SELECT * FROM request_comments
+			WHERE request_id = ANY(${requestIds})
+			ORDER BY created_at ASC
+		`;
+		for (const c of allComments) {
+			if (!comments[c.request_id]) comments[c.request_id] = [];
+			comments[c.request_id].push(c);
+		}
+	}
+
+	return { requests, statusFilter, comments };
 };
 
 export const actions = {
@@ -33,6 +49,41 @@ export const actions = {
 			UPDATE maintenance_requests
 			SET status = ${status}, updated_at = NOW()
 			WHERE id = ${Number(id)}
+		`;
+
+		// Notify tenant of status change via email
+		const req = await sql`
+			SELECT mr.category, mr.unit, t.email, t.name
+			FROM maintenance_requests mr
+			LEFT JOIN tenants t ON t.id = mr.tenant_id
+			WHERE mr.id = ${Number(id)}
+		`;
+		if (req.length > 0 && req[0].email) {
+			sendMaintenanceStatusEmail({
+				tenantEmail: req[0].email,
+				tenantName: req[0].name,
+				category: req[0].category,
+				status,
+				unit: req[0].unit
+			}).catch(() => {});
+		}
+
+		return { success: true };
+	},
+
+	addComment: async ({ request, locals }) => {
+		const tenant = locals.tenant!;
+		const data = await request.formData();
+		const requestId = data.get('request_id') as string;
+		const comment = (data.get('comment') as string)?.trim();
+
+		if (!requestId || !comment) {
+			return fail(400, { error: 'Comment is required.' });
+		}
+
+		await sql`
+			INSERT INTO request_comments (request_id, tenant_id, author_name, is_admin, comment)
+			VALUES (${Number(requestId)}, ${tenant.id}, ${tenant.name}, TRUE, ${comment})
 		`;
 
 		return { success: true };
