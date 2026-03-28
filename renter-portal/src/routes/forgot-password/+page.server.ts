@@ -23,11 +23,15 @@ export const actions = {
 			const token = await createPasswordResetToken(tenant.id);
 			const resetUrl = `${url.origin}/reset-password?token=${token}`;
 
-			sendPasswordResetEmail({
-				tenantName: tenant.name,
-				email: tenant.email,
-				resetUrl
-			}).catch(() => {});
+			try {
+				await sendPasswordResetEmail({
+					tenantName: tenant.name,
+					email: tenant.email,
+					resetUrl
+				});
+			} catch {
+				return fail(500, { error: 'Unable to send the reset email. Please try again later or contact your property manager.', email });
+			}
 		}
 
 		return { success: true, email };

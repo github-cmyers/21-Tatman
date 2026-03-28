@@ -84,7 +84,7 @@ export async function sendPasswordResetEmail(params: {
 	resetUrl: string;
 }) {
 	const client = getResend();
-	if (!client) return;
+	if (!client) throw new Error('Email service is not configured. Please set RESEND_API_KEY.');
 
 	await client.emails.send({
 		from: `21 Tatman Portal <${FROM_EMAIL}>`,
