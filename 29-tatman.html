@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>29 Tatman Street — Property Valuation &amp; Market Analysis</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" media="screen">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e8eaf6; min-height: 100vh; padding: 24px; max-width: 960px; margin: 0 auto; }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #1e2740; }
+  .header h1 { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .header p { color: #8892b0; font-size: 13px; margin-top: 6px; }
+  .offer-badge { display: inline-block; background: #3730a322; border: 1px solid #6366f155; color: #a5b4fc; font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: 20px; margin-top: 12px; letter-spacing: 0.5px; }
+
+  /* OFFER CARD */
+  .offer-card {
+    background: linear-gradient(135deg, #1a1f2e, #1e2438);
+    border: 1px solid #2a3050;
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .offer-icon { font-size: 52px; flex-shrink: 0; }
+  .offer-text h2 { font-size: 14px; color: #8892b0; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .offer-amount { font-size: 48px; font-weight: 800; color: #a5b4fc; letter-spacing: -1px; line-height: 1; }
+  .offer-sub { font-size: 13px; color: #8892b0; margin-top: 8px; line-height: 1.6; }
+  .offer-sub span { color: #fbbf24; font-weight: 600; }
+
+  /* COMPARE BANNER */
+  .compare-banner {
+    background: linear-gradient(135deg, #1a1a24, #1e1e2c);
+    border: 1px solid #2a3050;
+    border-radius: 14px;
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .compare-banner .cb-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; flex-shrink: 0; }
+  .compare-item { flex: 1; min-width: 120px; }
+  .compare-item .ci-title { font-size: 11px; color: #64748b; margin-bottom: 2px; }
+  .compare-item .ci-val { font-size: 17px; font-weight: 700; color: #e2e8f0; }
+  .compare-item .ci-diff { font-size: 11px; margin-top: 2px; }
+  .ci-red { color: #f87171; }
+  .ci-green { color: #4ade80; }
+  .ci-muted { color: #64748b; }
+  .divider-v { width: 1px; background: #1e2740; align-self: stretch; }
+
+  /* SECTION TITLES */
+  .section-title { font-size: 13px; font-weight: 700; color: #8892b0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .section-title .st-icon { font-size: 16px; }
+
+  /* CARDS */
+  .card { background: #161b28; border: 1px solid #1e2740; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+  .card.danger { border-color: #7f1d1d; background: linear-gradient(135deg, #1a1418, #1e1a1c); }
+  .card.warning { border-color: #78350f; background: linear-gradient(135deg, #1a1a18, #1e1e1c); }
+
+  /* STATS GRID */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: #161b28; border: 1px solid #1e2740; border-radius: 14px; padding: 18px 20px; }
+  .stat-card .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-bottom: 6px; }
+  .stat-card .value { font-size: 22px; font-weight: 700; color: #e2e8f0; }
+  .stat-card .sub { font-size: 11px; color: #475569; margin-top: 3px; }
+  .stat-card.income .value { color: #4ade80; }
+  .stat-card.expense .value { color: #f87171; }
+  .stat-card.neutral .value { color: #818cf8; }
+
+  /* ISSUE ROWS */
+  .issue-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid #1e2740; }
+  .issue-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .issue-row:first-of-type { padding-top: 0; }
+  .issue-severity { flex-shrink: 0; width: 72px; text-align: center; padding: 4px 0; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sev-safety { background: #dc262622; border: 1px solid #dc262644; color: #f87171; }
+  .sev-poor { background: #f9731622; border: 1px solid #f9731644; color: #fb923c; }
+  .sev-marginal { background: #fbbf2422; border: 1px solid #fbbf2444; color: #fbbf24; }
+  .issue-detail { flex: 1; }
+  .issue-detail .issue-name { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
+  .issue-detail .issue-desc { font-size: 12px; color: #8892b0; line-height: 1.5; }
+  .issue-cost { flex-shrink: 0; text-align: right; min-width: 110px; }
+  .issue-cost .cost-range { font-size: 14px; font-weight: 700; color: #f87171; }
+  .issue-cost .cost-note { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  /* TENANT STATUS */
+  .tenant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 8px; }
+  .tenant-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 12px; padding: 18px; }
+  .tenant-card.vacant { border-color: #dc262655; }
+  .tenant-card.problem { border-color: #f9731655; }
+  .tenant-card.below-market { border-color: #fbbf2455; }
+  .tenant-card .tc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .tenant-card .tc-unit { font-size: 14px; font-weight: 700; color: #e2e8f0; }
+  .tenant-card .tc-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-red { background: #dc262622; border: 1px solid #dc262644; color: #f87171; }
+  .badge-orange { background: #f9731622; border: 1px solid #f9731644; color: #fb923c; }
+  .badge-yellow { background: #fbbf2422; border: 1px solid #fbbf2444; color: #fbbf24; }
+  .badge-green { background: #4ade8022; border: 1px solid #4ade8044; color: #4ade80; }
+  .tenant-card .tc-rent { font-size: 20px; font-weight: 800; margin: 6px 0; }
+  .tc-rent.rent-zero { color: #f87171; }
+  .tc-rent.rent-low { color: #fbbf24; }
+  .tc-rent.rent-normal { color: #4ade80; }
+  .tenant-card .tc-desc { font-size: 12px; color: #8892b0; line-height: 1.5; }
+
+  /* BAR CHART */
+  .bar-item { margin-bottom: 14px; }
+  .bar-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .bar-name { font-size: 13px; color: #cbd5e1; font-weight: 500; }
+  .bar-amount { font-size: 13px; font-weight: 700; }
+  .bar-track { background: #1e2740; border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  hr.divider { border: none; border-top: 1px solid #1e2740; margin: 20px 0; }
+
+  /* TOTAL ROW */
+  .total-row { display: flex; align-items: center; justify-content: space-between; background: #0f1117; border: 1px solid #1e2740; border-radius: 10px; padding: 14px 18px; margin-top: 12px; }
+  .total-row .tr-label { font-size: 14px; font-weight: 700; color: #e2e8f0; }
+  .total-row .tr-value { font-size: 18px; font-weight: 800; }
+
+  /* CASHFLOW SUMMARY */
+  .cf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .cf-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 10px; padding: 16px; text-align: center; }
+  .cf-card .cf-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; }
+  .cf-card .cf-val { font-size: 24px; font-weight: 800; }
+  .cf-card .cf-sub { font-size: 11px; color: #475569; margin-top: 4px; }
+  .cf-pos { color: #4ade80; }
+  .cf-neg { color: #f87171; }
+  .cf-neutral { color: #a5b4fc; }
+  .cf-warn { color: #fbbf24; }
+
+  /* BOTTOM LINE */
+  .bottom-line {
+    background: linear-gradient(135deg, #1a2418, #1e2a1c);
+    border: 1px solid #2a4030;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .bottom-line h3 { font-size: 16px; font-weight: 700; color: #4ade80; margin-bottom: 12px; }
+  .bottom-line p { font-size: 13px; color: #94a3b8; line-height: 1.8; }
+  .bottom-line strong { color: #e2e8f0; }
+  .bottom-line .bl-highlight { color: #fbbf24; font-weight: 600; }
+
+  /* UNINSPECTED */
+  .uninspected-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+  .uninspected-card { background: #0f1117; border: 1px dashed #374151; border-radius: 10px; padding: 14px 18px; }
+  .uninspected-card .ui-title { font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 4px; }
+  .uninspected-card .ui-desc { font-size: 11px; color: #64748b; line-height: 1.5; }
+
+  .footnote { font-size: 11px; color: #374151; text-align: center; margin-top: 24px; line-height: 1.6; }
+
+  @media (max-width: 640px) {
+    .offer-card { flex-direction: column; text-align: center; }
+    .offer-amount { font-size: 36px; }
+    .compare-banner { flex-direction: column; }
+    .issue-row { flex-direction: column; gap: 8px; }
+    .issue-cost { text-align: left; }
+  }
+
+  /* ── COMP STYLES ──────────────────────────────────────────────────────── */
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .comp-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 14px; overflow: hidden; transition: border-color 0.2s; }
+  .comp-card:hover { border-color: #3b4a6b; }
+  .comp-card .comp-img { width: 100%; height: 180px; object-fit: cover; display: block; background: #1a1f2e; }
+  .comp-card .comp-body { padding: 16px; }
+  .comp-card .comp-addr { font-size: 14px; font-weight: 700; color: #e2e8f0; margin-bottom: 2px; }
+  .comp-card .comp-sub { font-size: 11px; color: #64748b; margin-bottom: 10px; }
+  .comp-card .comp-price { font-size: 22px; font-weight: 800; color: #4ade80; margin-bottom: 4px; }
+  .comp-card .comp-ppsf { font-size: 12px; color: #8892b0; margin-bottom: 12px; }
+  .comp-card .comp-specs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .comp-card .comp-spec { font-size: 11px; color: #94a3b8; background: #161b28; border: 1px solid #1e2740; border-radius: 6px; padding: 4px 10px; }
+  .comp-card .comp-note { font-size: 11px; color: #64748b; line-height: 1.5; }
+  .comp-card.subject { border-color: #6366f155; background: linear-gradient(135deg, #12142066, #161b28); }
+  .comp-card.subject .comp-price { color: #a5b4fc; }
+  .comp-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .comp-summary-card { background: #0f1117; border: 1px solid #1e2740; border-radius: 10px; padding: 16px; text-align: center; }
+  .comp-summary-card .cs-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; }
+  .comp-summary-card .cs-val { font-size: 22px; font-weight: 800; }
+  .comp-summary-card .cs-sub { font-size: 11px; color: #475569; margin-top: 4px; }
+  .comp-verdict { background: linear-gradient(135deg, #1a1418, #1e1a1c); border: 1px solid #7f1d1d; border-radius: 12px; padding: 18px 22px; margin-top: 16px; }
+  .comp-verdict .cv-title { font-size: 13px; font-weight: 700; color: #f87171; margin-bottom: 8px; }
+  .comp-verdict p { font-size: 12px; color: #94a3b8; line-height: 1.7; }
+  .comp-verdict strong { color: #e2e8f0; }
+  .comp-table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .comp-table th { text-align: left; padding: 10px 12px; color: #64748b; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #2a3050; }
+  .comp-table td { padding: 10px 12px; border-bottom: 1px solid #1e2740; color: #cbd5e1; }
+  .comp-table tr.subject-row { background: #6366f10a; }
+  .comp-table tr.subject-row td { color: #a5b4fc; font-weight: 600; }
+  .comp-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .comp-tag.tag-same-st { background: #4ade8022; border: 1px solid #4ade8044; color: #4ade80; }
+  .comp-tag.tag-nearby { background: #38bdf822; border: 1px solid #38bdf844; color: #38bdf8; }
+  .comp-tag.tag-renovated { background: #a78bfa22; border: 1px solid #a78bfa44; color: #a78bfa; }
+
+  /* ── PRINT STYLES ─────────────────────────────────────────────────────── */
+  @media print {
+    *, *::before, *::after { color-adjust: exact; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff !important; color: #1a1a1a !important; padding: 0 !important; font-size: 11px; }
+    .card, .card.danger, .card.warning,
+    .stat-card, .offer-card, .compare-banner,
+    .tenant-card, .tenant-card.vacant, .tenant-card.problem, .tenant-card.below-market,
+    .cf-card, .uninspected-card,
+    .total-row, .bottom-line, .comp-card, .comp-summary-card, .comp-verdict {
+      background: #fff !important;
+      border-color: #ccc !important;
+      box-shadow: none !important;
+    }
+    .header h1, .offer-amount, .stat-card .value,
+    .bar-name, .issue-detail .issue-name,
+    .tc-unit, .section-title, .tr-label,
+    .cf-card .cf-label, .cf-card .cf-sub,
+    .bottom-line h3 { color: #1a1a1a !important; }
+    .header p, .offer-sub, .stat-card .sub, .stat-card .label,
+    .issue-detail .issue-desc, .tc-desc, .ci-title, .ci-diff, .cb-label,
+    .uninspected-card .ui-title, .uninspected-card .ui-desc,
+    .footnote, .bottom-line p,
+    .compare-item .ci-diff { color: #444 !important; }
+    .cf-pos, .ci-green, .tc-rent.rent-normal,
+    .bottom-line h3 { color: #166534 !important; }
+    .cf-neg, .ci-red, .tc-rent.rent-zero,
+    .issue-cost .cost-range, .stat-card.expense .value { color: #991b1b !important; }
+    .cf-warn, .tc-rent.rent-low, .bl-highlight,
+    .offer-badge { color: #92400e !important; }
+    .cf-neutral, .stat-card.neutral .value,
+    .offer-amount { color: #1e3a5f !important; }
+    .sev-safety { background: #fee2e2 !important; border-color: #fca5a5 !important; color: #991b1b !important; }
+    .sev-poor { background: #ffedd5 !important; border-color: #fdba74 !important; color: #9a3412 !important; }
+    .sev-marginal { background: #fef9c3 !important; border-color: #fde047 !important; color: #854d0e !important; }
+    .badge-red { background: #fee2e2 !important; border-color: #fca5a5 !important; color: #991b1b !important; }
+    .badge-orange { background: #ffedd5 !important; border-color: #fdba74 !important; color: #9a3412 !important; }
+    .badge-yellow { background: #fef9c3 !important; border-color: #fde047 !important; color: #854d0e !important; }
+    .badge-green { background: #dcfce7 !important; border-color: #86efac !important; color: #166534 !important; }
+    .offer-badge { background: #e0e7ff !important; border-color: #a5b4fc !important; color: #1e3a5f !important; }
+    .bar-track { background: #e5e7eb !important; }
+    .bar-fill { opacity: 0.85; }
+    .bar-amount, .bar-amount span { color: #1a1a1a !important; }
+    table { border: 1px solid #ccc; }
+    th { background: #f3f4f6 !important; color: #1a1a1a !important; border-bottom: 2px solid #999 !important; }
+    td { color: #1a1a1a !important; border-bottom: 1px solid #e5e7eb !important; }
+    .total-row { background: #f3f4f6 !important; border-color: #ccc !important; }
+    .total-row .tr-value { color: #1a1a1a !important; }
+    .compare-item .ci-val { color: #1a1a1a !important; }
+    .divider-v { background: #ccc !important; }
+    .bottom-line { background: #f0fdf4 !important; border-color: #86efac !important; }
+    .bottom-line strong { color: #1a1a1a !important; }
+    .footnote { color: #666 !important; }
+    .issue-row, .tenant-card, .stat-card, .total-row,
+    .uninspected-card, .cf-card, .bar-item { break-inside: avoid; }
+    .offer-card, .compare-banner, .bottom-line { break-inside: avoid; }
+    .comp-card, .comp-summary-card, .comp-verdict { background: #fff !important; border-color: #ccc !important; }
+    .comp-card .comp-addr, .comp-card .comp-price { color: #1a1a1a !important; }
+    .comp-card .comp-sub, .comp-card .comp-ppsf, .comp-card .comp-note, .comp-card .comp-spec { color: #444 !important; }
+    .comp-card.subject { background: #f0f0ff !important; border-color: #a5b4fc !important; }
+    .comp-card.subject .comp-price { color: #1e3a5f !important; }
+    .comp-table th { background: #f3f4f6 !important; color: #1a1a1a !important; border-bottom: 2px solid #999 !important; }
+    .comp-table td { color: #1a1a1a !important; border-bottom: 1px solid #e5e7eb !important; }
+    .comp-table tr.subject-row { background: #eef2ff !important; }
+    .comp-table tr.subject-row td { color: #1e3a5f !important; }
+    body { padding: 12px !important; }
+    .header { margin-bottom: 12px !important; padding-bottom: 10px !important; }
+    .compare-banner { margin-bottom: 10px !important; padding: 10px 14px !important; gap: 10px !important; }
+    .card { margin-bottom: 10px !important; padding: 14px !important; border-radius: 8px !important; }
+    .offer-card { margin-bottom: 10px !important; padding: 14px !important; gap: 14px !important; }
+    .bottom-line { margin-bottom: 10px !important; padding: 14px !important; }
+    .section-title { margin-bottom: 8px !important; }
+    .stats-grid { gap: 8px !important; margin-bottom: 10px !important; }
+    .stat-card { padding: 10px 12px !important; border-radius: 6px !important; }
+    .tenant-grid { gap: 8px !important; margin-bottom: 6px !important; }
+    .tenant-card { padding: 10px 12px !important; border-radius: 6px !important; }
+    .cf-grid { gap: 8px !important; }
+    .cf-card { padding: 10px !important; border-radius: 6px !important; }
+    .bar-item { margin-bottom: 8px !important; }
+    .total-row { padding: 8px 12px !important; margin-top: 8px !important; border-radius: 6px !important; }
+    .uninspected-grid { gap: 8px !important; }
+    .uninspected-card { padding: 10px 12px !important; border-radius: 6px !important; }
+    hr.divider { margin: 10px 0 !important; }
+    .footnote { margin-top: 10px !important; }
+    .offer-amount { font-size: 36px !important; }
+    .comp-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px !important; }
+    .comp-card .comp-img { height: 120px; }
+    .comp-card .comp-body { padding: 10px !important; }
+    .comp-summary-grid { gap: 8px !important; }
+    .comp-summary-card { padding: 10px !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HEADER                                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="header">
+  <h1>29 Tatman Street, Worcester MA</h1>
+  <p>3-Family Investment Property &mdash; Valuation Analysis</p>
+  <div class="offer-badge">Currently For Sale &mdash; MLS #73380077</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PROPERTY SNAPSHOT                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="stats-grid">
+  <div class="stat-card neutral">
+    <div class="label">Asking Price</div>
+    <div class="value">$699,900</div>
+    <div class="sub">Reduced from $799,900 &bull; Listed May 2025</div>
+  </div>
+  <div class="stat-card neutral">
+    <div class="label">Price Per Sqft</div>
+    <div class="value">$228/sqft</div>
+    <div class="sub">3,068 sqft total</div>
+  </div>
+  <div class="stat-card income">
+    <div class="label">Gross Annual Income</div>
+    <div class="value">$60,600</div>
+    <div class="sub">$5,050/mo &bull; Fully occupied</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Property Type</div>
+    <div class="value" style="font-size:18px">3-Family Triple-Decker</div>
+    <div class="sub">Built 1909 &bull; 6 Bed / 3 Bath</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- VALUATION SNAPSHOT                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="compare-banner">
+  <div class="cb-label">Valuation Factors</div>
+  <div class="compare-item">
+    <div class="ci-title">Asking Price</div>
+    <div class="ci-val" style="color:#fbbf24">$699,900 ($228/sqft)</div>
+    <div class="ci-diff ci-muted">Reduced $100k from original $799,900</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">Comp-Supported Value</div>
+    <div class="ci-val" style="color:#fbbf24">$640k &ndash; $690k</div>
+    <div class="ci-diff ci-muted">Based on 4 recent 3-family sales</div>
+  </div>
+  <div class="divider-v"></div>
+  <div class="compare-item">
+    <div class="ci-title">Comp $/Sqft Range</div>
+    <div class="ci-val" style="color:#a5b4fc">$209 &ndash; $225</div>
+    <div class="ci-diff ci-muted">Anchored to actual sold prices nearby</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PROPERTY DETAILS                                                      -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#127968;</span> Property Details &mdash; 29 Tatman Street</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.6">
+    29 Tatman is a <strong style="color:#e2e8f0">3-family triple-decker</strong> built in 1909, currently listed for <strong style="color:#a5b4fc">$699,900</strong> (reduced from $799,900) by Lamacchia Realty, Inc. The property is <strong style="color:#4ade80">fully occupied</strong> with three tenants generating $5,050/mo in gross rent. Each unit features 2 bedrooms, 1 full bath, living room, eat-in kitchen, pantry, and in-unit laundry. The home features original hardwood floors, wood trim, and recent energy-efficient mini-split systems for heating and cooling.
+  </p>
+
+  <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+    <div class="stat-card">
+      <div class="label">Total Sqft</div>
+      <div class="value">3,068</div>
+      <div class="sub">+1,005 sqft unfinished basement</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Lot Size</div>
+      <div class="value">8,250 sqft</div>
+      <div class="sub">0.19 acres</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Year Built</div>
+      <div class="value">1909</div>
+      <div class="sub">117 years old</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Layout</div>
+      <div class="value" style="font-size:16px">2 Bed / 1 Bath &times; 3</div>
+      <div class="sub">Each unit identical</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Annual Taxes</div>
+      <div class="value">$7,830</div>
+      <div class="sub">Tax Year 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Key Features</div>
+      <div class="value" style="font-size:14px">Mini-Splits + Hardwood</div>
+      <div class="sub">In-unit laundry, decks &amp; porches</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- TENANT / INCOME STATUS                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#128176;</span> Rental Income Status &mdash; Fully Occupied</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    All three units are currently occupied. The listing reports gross annual income of <strong style="color:#4ade80">$60,600</strong> ($5,050/month). The average rent per unit is approximately <strong style="color:#e2e8f0">$1,683/month</strong>.
+  </p>
+
+  <div class="tenant-grid">
+    <div class="tenant-card">
+      <div class="tc-header">
+        <span class="tc-unit">Unit 1 &mdash; 1st Floor</span>
+        <span class="tc-badge badge-green">Occupied</span>
+      </div>
+      <div class="tc-rent rent-normal">~$1,683/mo</div>
+      <div class="tc-desc">2 bed / 1 bath. Average based on $5,050/mo gross across 3 units. Individual unit rents not disclosed in listing.</div>
+    </div>
+    <div class="tenant-card">
+      <div class="tc-header">
+        <span class="tc-unit">Unit 2 &mdash; 2nd Floor</span>
+        <span class="tc-badge badge-green">Occupied</span>
+      </div>
+      <div class="tc-rent rent-normal">~$1,683/mo</div>
+      <div class="tc-desc">2 bed / 1 bath. Average based on $5,050/mo gross across 3 units. Individual unit rents not disclosed in listing.</div>
+    </div>
+    <div class="tenant-card">
+      <div class="tc-header">
+        <span class="tc-unit">Unit 3 &mdash; 3rd Floor</span>
+        <span class="tc-badge badge-green">Occupied</span>
+      </div>
+      <div class="tc-rent rent-normal">~$1,683/mo</div>
+      <div class="tc-desc">2 bed / 1 bath. Average based on $5,050/mo gross across 3 units. Individual unit rents not disclosed in listing.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- COMPARABLE MARKET ANALYSIS                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#127968;</span> Comparable Market Analysis &mdash; Recent 3-Family Sales in 01607</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.6">
+    The following recently sold 3-family properties in Worcester&rsquo;s 01607 zip code provide the most relevant market comparables for 29 Tatman Street. Originally listed at $799,900, the price has been <strong style="color:#fbbf24">reduced $100,000 to $699,900</strong> ($228/sqft) after ~11 months on market. Even at the reduced price, 29 Tatman remains <strong style="color:#fbbf24">$10k&ndash;$60k above</strong> what comparable sales support.
+  </p>
+
+  <!-- Comp Cards -->
+  <div class="comp-grid">
+
+    <!-- COMP 1: 5 Tatman St -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://images-listings.coldwellbanker.com/MLSPIN/73/42/93/11/_P/73429311_P00.jpg" alt="5 Tatman St, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">5 Tatman St <span class="comp-tag tag-same-st">Same Street</span></div>
+        <div class="comp-sub">Worcester, MA 01607 &bull; Sold Nov 14, 2025</div>
+        <div class="comp-price">$650,000</div>
+        <div class="comp-ppsf">$214/sqft &mdash; <span style="color:#ef4444">6% cheaper per sqft than 29 Tatman at $700k ($228/sqft)</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">7 Bed</span>
+          <span class="comp-spec">3 Bath</span>
+          <span class="comp-spec">3,036 sqft</span>
+          <span class="comp-spec">Built 1880</span>
+          <span class="comp-spec">Lot: 6,145 sqft</span>
+        </div>
+        <div class="comp-note">Brand new roof, partially fenced backyard with patio, off-street parking, 1-car garage. Nearly identical size to 29 Tatman (32 sqft difference). Sold for <strong style="color:#fbbf24">$50k less</strong>. This is the strongest comp.</div>
+      </div>
+    </div>
+
+    <!-- COMP 2: 62 Whipple St -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://dvvjkgh94f2v6.cloudfront.net/6a24dcf8/73279257/83dcefb7.jpeg" alt="62 Whipple St, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">62 Whipple St <span class="comp-tag tag-nearby">0.3 mi Away</span></div>
+        <div class="comp-sub">Worcester, MA 01607 &bull; Sold Nov 20, 2024</div>
+        <div class="comp-price">$670,000</div>
+        <div class="comp-ppsf">$231/sqft &mdash; <span style="color:#64748b">slightly higher $/sqft but smaller property (2,898 sqft)</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">6 Bed</span>
+          <span class="comp-spec">3 Bath</span>
+          <span class="comp-spec">2,898 sqft</span>
+          <span class="comp-spec">Built 1914</span>
+          <span class="comp-spec">Lot: 0.12 ac</span>
+        </div>
+        <div class="comp-note">New roof (June 2024), vinyl windows, well-maintained exterior. Each unit: 2 bed, kitchen, living room, laundry. Long-term tenants on 2nd &amp; 3rd floors. Listed $689,900 &mdash; sold at 97% of ask.</div>
+      </div>
+    </div>
+
+    <!-- COMP 3: 49 Granite St -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://media.mlspin.com/photo.aspx?mls=73319495&h=480&w=640&n=0" alt="49 Granite St, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">49 Granite St <span class="comp-tag tag-renovated">Renovated</span></div>
+        <div class="comp-sub">Worcester, MA 01604 &bull; Sold Mar 10, 2025</div>
+        <div class="comp-price">$782,895</div>
+        <div class="comp-ppsf">$209/sqft &mdash; <span style="color:#ef4444">8% cheaper per sqft than 29 Tatman at $700k ($228/sqft)</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">6 Bed</span>
+          <span class="comp-spec">3 Bath</span>
+          <span class="comp-spec">3,750 sqft</span>
+          <span class="comp-spec">Built 1900</span>
+        </div>
+        <div class="comp-note">Fully occupied triple-decker, <strong style="color:#a78bfa">recently renovated 3rd floor</strong>, modernized electrical, new water heaters. Sold for $83k more but is <strong style="color:#fbbf24">22% larger</strong> &mdash; significantly cheaper per sqft.</div>
+      </div>
+    </div>
+
+    <!-- COMP 4: 17 5th Ave -->
+    <div class="comp-card">
+      <img class="comp-img" src="https://media.mlspin.com/photo.aspx?mls=73369767&h=480&w=640&n=0" alt="17 5th Ave, Worcester MA" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-addr">17 5th Ave <span class="comp-tag tag-nearby">Same Zip</span></div>
+        <div class="comp-sub">Worcester, MA 01607 &bull; Sold Apr 11, 2025</div>
+        <div class="comp-price">$840,000</div>
+        <div class="comp-ppsf">$248/sqft &mdash; <span style="color:#64748b">highest comp &mdash; but built/renovated in 2021, not 1909</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">7 Bed</span>
+          <span class="comp-spec">4 Bath</span>
+          <span class="comp-spec">3,388 sqft</span>
+          <span class="comp-spec">Built/Reno 2021</span>
+        </div>
+        <div class="comp-note">Owner-occupied 3-unit, each unit 2 bed/1 bath with W/D hookup. <strong style="color:#a78bfa">Newest construction on this list</strong> &mdash; commands a premium. Not a fair comparison to a 1909 property without major renovations.</div>
+      </div>
+    </div>
+
+    <!-- COMP 5: 21 Tatman St (Neighbor) -->
+    <div class="comp-card">
+      <div class="comp-img" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1f2e,#252a3e);color:#64748b;font-size:13px;font-weight:600;">No Photo Available</div>
+      <div class="comp-body">
+        <div class="comp-addr">21 Tatman St <span class="comp-tag tag-same-st">Same Street</span></div>
+        <div class="comp-sub">Worcester, MA 01607 &bull; Listed at $700,000 (2025&ndash;2026)</div>
+        <div class="comp-price" style="color:#fbbf24">$700,000</div>
+        <div class="comp-ppsf">$265/sqft &mdash; <span style="color:#64748b">Listed, not yet sold. Renovated interiors, new roof, mini-splits.</span></div>
+        <div class="comp-specs">
+          <span class="comp-spec">6 Bed</span>
+          <span class="comp-spec">3 Bath</span>
+          <span class="comp-spec">2,646 sqft</span>
+          <span class="comp-spec">Built 1890</span>
+        </div>
+        <div class="comp-note">Same street, <strong style="color:#fbbf24">recently renovated interiors</strong>, new roof (1&ndash;5 yrs), Mitsubishi mini-split AC, replacement windows, 3 newer water heaters. Smaller than 29 Tatman but more extensively renovated. Listed at $700k &mdash; comp analysis suggests fair value of $635k&ndash;$660k.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Neighborhood Proximity Map -->
+  <div style="font-size:11px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">&#128205; Neighborhood Proximity</div>
+  <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:280px;background:#0f1117;border:1px solid #1e2740;border-radius:12px;overflow:hidden">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <div id="comp-map" style="width:100%;height:300px;"></div>
+      <script>
+        (function(){
+          var props = [
+            {lat:42.2282,lng:-71.7951,color:'#a5b4fc',label:'29 Tatman St',info:'Subject \u2014 $700k asking \u2014 $228/sqft',radius:10},
+            {lat:42.2284412,lng:-71.7954532,color:'#e879f9',label:'21 Tatman St',info:'$700k listed \u2014 $265/sqft',radius:8},
+            {lat:42.2284597,lng:-71.7936639,color:'#4ade80',label:'5 Tatman St',info:'$650k sold \u2014 $214/sqft',radius:8},
+            {lat:42.2313010,lng:-71.7997230,color:'#38bdf8',label:'62 Whipple St',info:'$670k sold \u2014 $231/sqft',radius:8},
+            {lat:42.2467722,lng:-71.7883066,color:'#a78bfa',label:'49 Granite St',info:'$783k sold \u2014 $209/sqft',radius:8},
+            {lat:42.2417525,lng:-71.7999876,color:'#fbbf24',label:'17 5th Ave',info:'$840k sold \u2014 $248/sqft',radius:8}
+          ];
+          var avgLat = props.reduce(function(s,p){return s+p.lat},0)/props.length;
+          var avgLng = props.reduce(function(s,p){return s+p.lng},0)/props.length;
+          var map = L.map('comp-map',{scrollWheelZoom:false,attributionControl:false}).setView([avgLat,avgLng],14);
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+            maxZoom:19
+          }).addTo(map);
+          props.forEach(function(p){
+            L.circleMarker([p.lat,p.lng],{
+              radius:p.radius,color:p.color,fillColor:p.color,fillOpacity:0.85,weight:2
+            }).addTo(map).bindPopup('<strong style="color:'+p.color+'">'+p.label+'</strong><br>'+p.info);
+          });
+          var subject = [42.2282,-71.7951];
+          props.slice(1).forEach(function(p){
+            L.polyline([subject,[p.lat,p.lng]],{color:p.color,weight:1,opacity:0.35,dashArray:'4 6'}).addTo(map);
+          });
+          var group = L.featureGroup(props.map(function(p){return L.marker([p.lat,p.lng])}));
+          map.fitBounds(group.getBounds().pad(0.15));
+          setTimeout(function(){ map.invalidateSize(); map.fitBounds(group.getBounds().pad(0.15)); }, 200);
+        })();
+      </script>
+    </div>
+    <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:8px;">
+      <div style="font-size:12px;color:#94a3b8;margin-bottom:4px;">All comps within 0.6 miles of 29 Tatman St:</div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #6366f155;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#a5b4fc;flex-shrink:0;box-shadow:0 0 6px #a5b4fc88;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#a5b4fc;">29 Tatman St &mdash; Subject Property</div>
+          <div style="font-size:11px;color:#64748b;">$700k asking &bull; $228/sqft &bull; 3,068 sqft</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #e879f944;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#e879f9;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#e879f9;">21 Tatman St &mdash; Same Street</div>
+          <div style="font-size:11px;color:#64748b;">$700k listed &bull; $265/sqft &bull; 2,646 sqft</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #4ade8044;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#4ade80;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#4ade80;">5 Tatman St &mdash; Same Street</div>
+          <div style="font-size:11px;color:#64748b;">$650k sold &bull; $214/sqft &bull; Nov 2025</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #38bdf844;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#38bdf8;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#38bdf8;">62 Whipple St &mdash; 0.3 mi</div>
+          <div style="font-size:11px;color:#64748b;">$670k sold &bull; $231/sqft &bull; Nov 2024</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #a78bfa44;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#a78bfa;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#a78bfa;">49 Granite St &mdash; 0.5 mi</div>
+          <div style="font-size:11px;color:#64748b;">$783k sold &bull; $209/sqft &bull; 3,750 sqft</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#0f1117;border:1px solid #fbbf2444;border-radius:8px;padding:10px 14px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#fbbf24;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:#fbbf24;">17 5th Ave &mdash; 0.6 mi</div>
+          <div style="font-size:11px;color:#64748b;">$840k sold &bull; $248/sqft &bull; Built 2021</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <div style="font-size:11px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Side-by-Side Comparison</div>
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th style="text-align:right">Price</th>
+          <th style="text-align:right">Sqft</th>
+          <th style="text-align:right">$/Sqft</th>
+          <th style="text-align:center">Bed/Bath</th>
+          <th>Year Built</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="subject-row">
+          <td><strong>29 Tatman St &#9733;</strong></td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#a5b4fc">$699,900</td>
+          <td style="text-align:right">3,068</td>
+          <td style="text-align:right;color:#fbbf24"><strong>$228</strong></td>
+          <td style="text-align:center">6 / 3</td>
+          <td>1909</td>
+          <td style="color:#fbbf24">Asking</td>
+        </tr>
+        <tr>
+          <td>21 Tatman St</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#fbbf24">$700,000</td>
+          <td style="text-align:right">2,646</td>
+          <td style="text-align:right">$265</td>
+          <td style="text-align:center">6 / 3</td>
+          <td>1890</td>
+          <td style="color:#fbbf24">Asking</td>
+        </tr>
+        <tr>
+          <td>5 Tatman St</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$650,000</td>
+          <td style="text-align:right">3,036</td>
+          <td style="text-align:right">$214</td>
+          <td style="text-align:center">7 / 3</td>
+          <td>1880</td>
+          <td>Sold Nov 2025</td>
+        </tr>
+        <tr>
+          <td>62 Whipple St</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$670,000</td>
+          <td style="text-align:right">2,898</td>
+          <td style="text-align:right">$231</td>
+          <td style="text-align:center">6 / 3</td>
+          <td>1914</td>
+          <td>Sold Nov 2024</td>
+        </tr>
+        <tr>
+          <td>49 Granite St</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$782,895</td>
+          <td style="text-align:right">3,750</td>
+          <td style="text-align:right">$209</td>
+          <td style="text-align:center">6 / 3</td>
+          <td>1900</td>
+          <td>Sold Mar 2025</td>
+        </tr>
+        <tr>
+          <td>17 5th Ave</td>
+          <td>3-Family</td>
+          <td style="text-align:right;color:#4ade80">$840,000</td>
+          <td style="text-align:right">3,388</td>
+          <td style="text-align:right">$248</td>
+          <td style="text-align:center">7 / 4</td>
+          <td>2021</td>
+          <td>Sold Apr 2025</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="comp-summary-grid">
+    <div class="comp-summary-card">
+      <div class="cs-label">Comp Avg $/Sqft</div>
+      <div class="cs-val" style="color:#4ade80">$226</div>
+      <div class="cs-sub">Across 4 sold comparable sales</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">Sold Comp Range (excl. 2021 build)</div>
+      <div class="cs-val" style="color:#a5b4fc">$209&ndash;$231</div>
+      <div class="cs-sub">The 3 comps most similar to 29 Tatman</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">29 Tatman $/Sqft at $700k</div>
+      <div class="cs-val" style="color:#fbbf24">$228</div>
+      <div class="cs-sub">Above closest comp ($214), near top of range</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">Fair Value Range</div>
+      <div class="cs-val" style="color:#fbbf24">$640k&ndash;$690k</div>
+      <div class="cs-sub">3,068 sqft &times; $209&ndash;$225/sqft</div>
+    </div>
+    <div class="comp-summary-card">
+      <div class="cs-label">Best Comp: 5 Tatman</div>
+      <div class="cs-val" style="color:#4ade80">$650k</div>
+      <div class="cs-sub">Same street, same size, new roof, sold</div>
+    </div>
+  </div>
+
+  <!-- $/Sqft Visual Comparison -->
+  <div style="font-size:11px;font-weight:700;color:#8892b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">$/Sqft Visual Comparison</div>
+  <div style="background:#0f1117;border:1px solid #1e2740;border-radius:12px;padding:20px 24px;margin-bottom:16px;position:relative;">
+    <!-- Dashed line at $228 (29 Tatman asking) -->
+    <div style="position:absolute;top:12px;bottom:12px;left:calc(24px + (228/280) * (100% - 48px));border-left:2px dashed #fbbf24;z-index:2;"></div>
+    <div style="position:absolute;top:4px;left:calc(24px + (228/280) * (100% - 48px));transform:translateX(-50%);font-size:10px;font-weight:700;color:#fbbf24;white-space:nowrap;z-index:3;">29 Tatman asking: $228/sqft</div>
+
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:18px;">
+      <!-- 49 Granite - $209 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">49 Granite St</span>
+          <span style="font-size:12px;font-weight:700;color:#4ade80;">$209/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#4ade80,#22c55e);width:74.6%;"></div>
+        </div>
+      </div>
+      <!-- 5 Tatman - $214 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">5 Tatman St <span style="font-size:10px;color:#4ade80;font-weight:700;">SAME STREET</span></span>
+          <span style="font-size:12px;font-weight:700;color:#4ade80;">$214/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#4ade80,#22c55e);width:76.4%;"></div>
+        </div>
+      </div>
+      <!-- 62 Whipple - $231 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">62 Whipple St</span>
+          <span style="font-size:12px;font-weight:700;color:#4ade80;">$231/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#4ade80,#22c55e);width:82.5%;"></div>
+        </div>
+      </div>
+      <!-- 29 Tatman at $700k - $228 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#fbbf24;font-weight:700;">29 Tatman St @ $700k</span>
+          <span style="font-size:12px;font-weight:700;color:#fbbf24;">$228/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#fbbf24,#f59e0b);width:81.4%;"></div>
+        </div>
+      </div>
+      <!-- 17 5th Ave - $248 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#cbd5e1;font-weight:500;">17 5th Ave <span style="font-size:10px;color:#a78bfa;font-weight:700;">BUILT 2021</span></span>
+          <span style="font-size:12px;font-weight:700;color:#a78bfa;">$248/sqft</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#a78bfa,#8b5cf6);width:88.6%;"></div>
+        </div>
+      </div>
+      <!-- Fair value range indicator -->
+      <div style="margin-top:4px;padding-top:10px;border-top:1px solid #1e2740;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:12px;color:#a5b4fc;font-weight:700;">29 Tatman Fair Value ($209&ndash;$225/sqft)</span>
+          <span style="font-size:12px;font-weight:700;color:#a5b4fc;">$640k&ndash;$690k</span>
+        </div>
+        <div style="background:#1e2740;border-radius:4px;height:10px;position:relative;">
+          <div style="height:100%;border-radius:4px;background:linear-gradient(90deg,#818cf8,#6366f1);width:74.6%;border-right:3px solid #a5b4fc;"></div>
+          <div style="position:absolute;top:0;left:74.6%;height:100%;width:calc(80.4% - 74.6%);background:linear-gradient(90deg,#6366f144,#6366f122);border-radius:0 4px 4px 0;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verdict -->
+  <div class="comp-verdict">
+    <div class="cv-title">&#9888;&#65039; Comparable-Supported Value: $640,000 &ndash; $690,000</div>
+    <p>
+      29 Tatman&rsquo;s <strong>original hardwood floors, energy-efficient mini-split systems, in-unit laundry, private decks and porches</strong> are genuine selling points. The property is <strong>fully occupied</strong> generating $60,600/year in gross rent, which adds to its investment appeal.
+    </p>
+    <p style="margin-top:10px">
+      The $100k price reduction from $799,900 to <strong style="color:#fbbf24">$699,900 ($228/sqft)</strong> brings the asking price closer to market &mdash; but it still exceeds what comparable properties actually sold for. The closest comp by size &mdash; <strong>5 Tatman St on the same street (3,036 sqft)</strong> &mdash; sold for just $650,000 ($214/sqft) in November 2025. The comp average (excluding the 2021-built outlier) is $218/sqft. At $228/sqft, 29 Tatman is still priced at the top of the range for a 1909 property without documented major renovations beyond mini-splits. The data supports <strong style="color:#fbbf24">$640,000&ndash;$690,000</strong>, representing a potential overpayment of <strong style="color:#f87171">$10,000&ndash;$60,000</strong> at the current asking price.
+    </p>
+  </div>
+
+  <p style="font-size:11px;color:#475569;margin-top:12px;text-align:center">
+    Sources: MLS/MLSPIN records, Coldwell Banker, Redfin, Homes.com. Sales within 01607 zip code unless noted. Data as of April 2026.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PRICE GAP CALLOUT                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg,#1a1418,#1e1a20);border:2px solid #dc262666;border-radius:20px;padding:32px 36px;margin-bottom:28px;text-align:center;">
+  <div style="font-size:11px;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Price Gap Analysis</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:4px;">Asking Price</div>
+      <div style="font-size:36px;font-weight:800;color:#fbbf24;letter-spacing:-1px;">$699,900</div>
+      <div style="font-size:11px;color:#64748b;">$228/sqft &bull; reduced from $799,900</div>
+    </div>
+    <div style="font-size:28px;font-weight:700;color:#475569;">&minus;</div>
+    <div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:4px;">Comp-Supported Value</div>
+      <div style="font-size:36px;font-weight:800;color:#4ade80;letter-spacing:-1px;">$640k&ndash;$690k</div>
+      <div style="font-size:11px;color:#64748b;">$209&ndash;$225/sqft</div>
+    </div>
+    <div style="font-size:28px;font-weight:700;color:#475569;">=</div>
+    <div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:4px;">Potential Overpayment</div>
+      <div style="font-size:36px;font-weight:800;color:#f87171;letter-spacing:-1px;">$10k&ndash;$60k</div>
+      <div style="font-size:11px;color:#f87171;font-weight:600;">Above comp-supported value</div>
+    </div>
+  </div>
+  <div style="margin-top:20px;padding-top:16px;border-top:1px solid #2a2030;">
+    <div style="font-size:13px;color:#94a3b8;line-height:1.6;max-width:680px;margin:0 auto;">
+      The <strong style="color:#e2e8f0;">same-street comp (5 Tatman, nearly identical size)</strong> sold for <strong style="color:#fbbf24;">$50k less</strong> with a brand new roof. 62 Whipple sold for $670k with a new roof and vinyl windows. After ~11 months on market and a <strong style="color:#e2e8f0;">$100k price reduction</strong>, the seller has signaled willingness to negotiate further.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- INCOME & CASH FLOW ANALYSIS                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#128202;</span> Income &amp; Cash Flow Analysis</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    Based on the listing&rsquo;s reported gross income of <strong style="color:#4ade80">$60,600/year</strong> and estimated operating expenses. Assumes 25% down payment, 7% mortgage rate, 30-year fixed.
+  </p>
+
+  <div class="cf-grid" style="margin-bottom:20px">
+    <div class="cf-card">
+      <div class="cf-label">Gross Annual Income</div>
+      <div class="cf-val cf-pos">$60,600</div>
+      <div class="cf-sub">$5,050/mo &bull; All 3 units occupied</div>
+    </div>
+    <div class="cf-card">
+      <div class="cf-label">Estimated Annual Expenses</div>
+      <div class="cf-val cf-neg">~$13,830</div>
+      <div class="cf-sub">Taxes $7,830 + Insurance ~$3,000 + Water/Sewer ~$3,000</div>
+    </div>
+    <div class="cf-card">
+      <div class="cf-label">Net Operating Income</div>
+      <div class="cf-val cf-pos">~$46,770</div>
+      <div class="cf-sub">Before mortgage &bull; 6.7% cap rate at $700k</div>
+    </div>
+    <div class="cf-card">
+      <div class="cf-label">Monthly Mortgage (at $700k)</div>
+      <div class="cf-val cf-neg">~$3,493</div>
+      <div class="cf-sub">$525k loan @ 7% / 30yr</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div class="stat-card" style="border-color:#fbbf2444">
+      <div class="label">Monthly Cash Flow at $700k</div>
+      <div class="value" style="color:#fbbf24;font-size:20px">~$404/mo</div>
+      <div class="sub">Before vacancy/maintenance reserves (~$500/mo recommended)</div>
+    </div>
+    <div class="stat-card" style="border-color:#4ade8044">
+      <div class="label">Monthly Cash Flow at $650k</div>
+      <div class="value" style="color:#4ade80;font-size:20px">~$648/mo</div>
+      <div class="sub">Positive cash flow at closest comp value</div>
+    </div>
+  </div>
+
+  <div class="total-row" style="border-color:#78350f">
+    <span class="tr-label" style="color:#fbbf24">Cash Flow Takeaway</span>
+    <span style="font-size:12px;color:#94a3b8;text-align:right;max-width:65%">At $700k the property is marginally cash-flow positive ($404/mo), but after setting aside reserves for vacancy (5%) and maintenance, it&rsquo;s effectively break-even. At a comp-supported price of $640k&ndash;$650k, cash flow becomes meaningfully positive.</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 1% RULE                                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#128202;</span> The 1% Rule &mdash; Investment Benchmark</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    The <strong style="color:#e2e8f0">1% Rule</strong> states that <strong style="color:#fbbf24">monthly gross rent should be at least 1% of the purchase price</strong>. At a current gross rent of $5,050/month, here is where 29 Tatman stands:
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px;">
+    <div class="stat-card" style="border-color:#fbbf2455;background:linear-gradient(135deg,#1a1a14,#1e1e18);">
+      <div class="label" style="color:#fbbf24;">At $699,900 (Asking)</div>
+      <div class="value" style="color:#fbbf24;font-size:26px;">$6,999/mo</div>
+      <div class="sub" style="margin-top:4px;">Required rent &bull; Current: $5,050 <strong style="color:#fbbf24">(72%)</strong></div>
+    </div>
+    <div class="stat-card" style="border-color:#fbbf2455;background:linear-gradient(135deg,#1a1a14,#1e1e18);">
+      <div class="label" style="color:#fbbf24;">At $690,000</div>
+      <div class="value" style="color:#fbbf24;font-size:26px;">$6,900/mo</div>
+      <div class="sub" style="margin-top:4px;">Required rent &bull; Current: $5,050 <strong style="color:#fbbf24">(73%)</strong></div>
+    </div>
+    <div class="stat-card" style="border-color:#fbbf2455;background:linear-gradient(135deg,#1a1a14,#1e1e18);">
+      <div class="label" style="color:#fbbf24;">At $640,000</div>
+      <div class="value" style="color:#fbbf24;font-size:26px;">$6,400/mo</div>
+      <div class="sub" style="margin-top:4px;">Required rent &bull; Current: $5,050 <strong style="color:#fbbf24">(79%)</strong></div>
+    </div>
+  </div>
+
+  <div class="total-row" style="border-color:#78350f;">
+    <span class="tr-label" style="color:#fbbf24;">1% Rule Takeaway</span>
+    <span style="font-size:12px;color:#94a3b8;text-align:right;max-width:65%">At every price point in this range, the 1% rule demands rents above what 29 Tatman currently generates. Even at the low end of fair value ($640k), the property only achieves 79% of the 1% target. This is typical for the Worcester market but underscores that this is not a high-cash-flow investment.</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- UNKNOWNS / DUE DILIGENCE                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-title"><span class="st-icon">&#10067;</span> Unknown Factors &mdash; Due Diligence Required</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    This analysis is based on public listing data. A buyer should investigate the following before making an offer. These represent <strong style="color:#fbbf24">risks that cannot yet be priced</strong>.
+  </p>
+  <div class="uninspected-grid">
+    <div class="uninspected-card">
+      <div class="ui-title">Professional Inspection Not Conducted</div>
+      <div class="ui-desc">No inspection report is available. A 117-year-old property will almost certainly have deferred maintenance items (roof, foundation, electrical, plumbing, chimney) that could represent $10,000&ndash;$30,000+ in additional costs.</div>
+    </div>
+    <div class="uninspected-card">
+      <div class="ui-title">Individual Unit Rent Breakdown</div>
+      <div class="ui-desc">The listing only discloses total gross rent of $5,050/mo. Individual unit rents, lease terms, and tenant payment history are unknown. Some tenants may be below market, creating upside &mdash; or may have unfavorable lease terms.</div>
+    </div>
+    <div class="uninspected-card">
+      <div class="ui-title">Roof, Foundation &amp; Major Systems</div>
+      <div class="ui-desc">The listing does not mention roof age, foundation condition, electrical panel status, plumbing material (lead, copper, PEX), or water heater ages. These are critical cost factors on a 1909 property.</div>
+    </div>
+    <div class="uninspected-card">
+      <div class="ui-title">Lead Paint &amp; Asbestos</div>
+      <div class="ui-desc">Built in 1909, lead paint and asbestos are highly likely present unless previously abated. Massachusetts law requires de-leading for properties with children under 6. Remediation costs can be substantial ($5,000&ndash;$20,000+ per unit).</div>
+    </div>
+    <div class="uninspected-card">
+      <div class="ui-title">Landlord-Paid vs Tenant-Paid Utilities</div>
+      <div class="ui-desc">The listing does not clearly state which utilities the landlord pays. If the owner is responsible for heat, electric, or water/sewer, annual operating expenses could be significantly higher than estimated.</div>
+    </div>
+    <div class="uninspected-card">
+      <div class="ui-title">~11 Months on Market + $100k Price Cut</div>
+      <div class="ui-desc">Listed May 2025, reduced from $799,900 to $699,900. Extended time on market and a significant price reduction signal that the original asking was not supported by buyer demand. The seller may be motivated to negotiate further.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MACROECONOMIC RISK FACTORS                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="card warning">
+  <div class="section-title"><span class="st-icon">&#127758;</span> Macroeconomic &amp; Global Risk Factors</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.6">
+    These broader market conditions affect the risk profile of any investment property purchase above its comp-supported value.
+  </p>
+
+  <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+    <div class="stat-card" style="border-color:#7c3aed55;background:linear-gradient(135deg,#1a1424,#1e1828)">
+      <div class="label" style="color:#a78bfa">&#128200; Rising Interest Rates</div>
+      <div class="value" style="color:#a78bfa;font-size:18px">Rate Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A 1% rate increase on a $525k loan adds ~$325/mo to carrying costs. Rate volatility compresses margins on an already tight investment. Refinancing risk is real if rates don&rsquo;t decline.</div>
+    </div>
+    <div class="stat-card" style="border-color:#dc262655;background:linear-gradient(135deg,#1a1418,#1e1820)">
+      <div class="label" style="color:#f87171">&#128680; Rising Unemployment</div>
+      <div class="value" style="color:#f87171;font-size:18px">Tenant Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">Unemployment increases tenant default risk and vacancy rates. Worcester&rsquo;s rental market is under stress. A single missed month on a margin-thin multi-family creates immediate out-of-pocket exposure.</div>
+    </div>
+    <div class="stat-card" style="border-color:#f9731655;background:linear-gradient(135deg,#1a1614,#1e1a18)">
+      <div class="label" style="color:#fb923c">&#9889; Rising Energy Costs</div>
+      <div class="value" style="color:#fb923c;font-size:18px">OpEx Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">Even with energy-efficient mini-splits, rising energy costs increase tenant burden and can strain rent affordability. Higher utility bills reduce tenants&rsquo; effective ability to pay &mdash; and can drive turnover.</div>
+    </div>
+    <div class="stat-card" style="border-color:#fbbf2455;background:linear-gradient(135deg,#1a1a14,#1e1e18)">
+      <div class="label" style="color:#fbbf24">&#128201; Potential Recession</div>
+      <div class="value" style="color:#fbbf24;font-size:18px">Market Risk</div>
+      <div class="sub" style="color:#64748b;margin-top:6px;line-height:1.5">A recession softens property values, compresses rents, and extends vacancy cycles. A 5&ndash;10% decline in value from $700k would erode down payment equity and extend the time horizon to break even.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- BOTTOM LINE                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="bottom-line">
+  <h3>What This Property Is Worth &mdash; $640,000&ndash;$690,000</h3>
+  <p>
+    29 Tatman Street is a solid 3-family triple-decker with <strong>original hardwood floors, energy-efficient mini-split systems, in-unit laundry, and private decks/porches</strong>. The property is <strong>fully occupied</strong> generating $60,600/year in gross rent. It&rsquo;s a functional investment property on a familiar street. Based on comparable sales and the available data, this property is worth <strong style="color:#a5b4fc">$640,000&ndash;$690,000</strong>. Here is why:
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">1.</span> <strong>The strongest comp &mdash; 5 Tatman St, same street, nearly identical size (3,036 sqft) &mdash; sold for $650,000 ($214/sqft) in November 2025.</strong> This is the most direct comparable: same street, same era, same size. It had a brand new roof. 29 Tatman at $699,900 is priced $50k higher for a nearly identical property.
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">2.</span> <strong>62 Whipple St (0.3 mi away, similar era) sold for $670,000 ($231/sqft)</strong> with a new roof and vinyl windows. It was listed at $689,900 and sold at 97% of ask &mdash; a pattern that suggests 29 Tatman would likely sell below its current asking.
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">3.</span> <strong>No inspection has been conducted.</strong> A 117-year-old property will almost certainly carry deferred maintenance costs &mdash; potentially $10,000&ndash;$30,000+ &mdash; which further reduce effective value.
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">4.</span> <strong>The $100k price reduction (from $799,900 to $699,900) after ~11 months on market</strong> confirms the original price was not supported by demand. Extended market time and a large reduction signal seller motivation and room for further negotiation.
+  </p>
+  <br>
+  <p>
+    <span class="bl-highlight">5.</span> <strong>Cash flow is marginal at $700k</strong> (~$404/mo before reserves) and only becomes meaningfully positive at a lower purchase price. The 1% rule shows current rents achieving only 72% of the target.
+  </p>
+  <br>
+  <p>
+    <strong style="color:#a5b4fc;font-size:16px">$640,000&ndash;$690,000</strong> is what similar properties on this street and in this zip code have actually sold for. This is a <strong>data-driven, comp-supported valuation</strong> anchored to the two most relevant sales: 5 Tatman ($650k) and 62 Whipple ($670k).
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- ASSESSED VALUE CARD                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="offer-card">
+  <div class="offer-icon">&#128200;</div>
+  <div class="offer-text">
+    <h2>Comp-Supported Property Value</h2>
+    <div class="offer-amount">$640,000 &ndash; $690,000</div>
+    <div class="offer-sub">
+      Anchored to <span>2 strongest comparable sales</span>: 5 Tatman St ($650k, same street, same size) and 62 Whipple St ($670k, 0.3 mi). No inspection discount applied &mdash; actual value may be lower pending professional evaluation. Current asking of $699,900 (reduced from $799,900) represents a <span>$10k&ndash;$60k premium</span> over comp-supported value.
+    </div>
+  </div>
+</div>
+
+<div class="footnote">
+  Analysis prepared April 2026. Based on public MLS listing data and comparable sales records.<br>
+  No professional inspection has been conducted. All estimates should be verified independently.<br>
+  Sources: MLS #73380077, Lamacchia Realty, Compass, Redfin, Homes.com, City of Worcester property records.
+</div>
+
+</body>
+</html>
